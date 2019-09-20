@@ -58,17 +58,17 @@
   <meta name="description" content="K-means算法介绍 从D中随机取k个元素，作为k个簇的各自的中心。 分别计算剩下的元素到k个簇中心的相异度，将这些元素分别划归到相异度最低的簇。 根据聚类结果，重新计算k个簇各自的中心，计算方法是取簇中所有元素各自维度的算术平均数。 将D中全部元素按照新的中心重新聚类。 重复第4步，直到聚类结果不再变化。 将结果输出。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="K-Means">
-<meta property="og:url" content="http://yoursite.com/2019/09/17/K-Means/index.html">
+<meta property="og:url" content="http://lanjianwen.com/2019/09/17/K-Means/index.html">
 <meta property="og:site_name" content="lanjianwen&amp;blog">
 <meta property="og:description" content="K-means算法介绍 从D中随机取k个元素，作为k个簇的各自的中心。 分别计算剩下的元素到k个簇中心的相异度，将这些元素分别划归到相异度最低的簇。 根据聚类结果，重新计算k个簇各自的中心，计算方法是取簇中所有元素各自维度的算术平均数。 将D中全部元素按照新的中心重新聚类。 重复第4步，直到聚类结果不再变化。 将结果输出。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2019/09/17/K-Means/1.png">
+<meta property="og:image" content="http://lanjianwen.com/2019/09/17/K-Means/1.png">
 <meta property="og:updated_time" content="2019-09-18T01:01:26.967Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="K-Means">
 <meta name="twitter:description" content="K-means算法介绍 从D中随机取k个元素，作为k个簇的各自的中心。 分别计算剩下的元素到k个簇中心的相异度，将这些元素分别划归到相异度最低的簇。 根据聚类结果，重新计算k个簇各自的中心，计算方法是取簇中所有元素各自维度的算术平均数。 将D中全部元素按照新的中心重新聚类。 重复第4步，直到聚类结果不再变化。 将结果输出。">
-<meta name="twitter:image" content="http://yoursite.com/2019/09/17/K-Means/1.png">
-  <link rel="canonical" href="http://yoursite.com/2019/09/17/K-Means/">
+<meta name="twitter:image" content="http://lanjianwen.com/2019/09/17/K-Means/1.png">
+  <link rel="canonical" href="http://lanjianwen.com/2019/09/17/K-Means/">
 
 
 <script id="page-configurations">
@@ -257,7 +257,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/17/K-Means/">
+    <link itemprop="mainEntityOfPage" href="http://lanjianwen.com/2019/09/17/K-Means/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lanjianwen">
@@ -315,6 +315,14 @@
           
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
   
   <span class="post-meta-item">
     
@@ -362,10 +370,36 @@
 
     </div>
 
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+	
     
     
     
         
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>lanjianwen</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://lanjianwen.com/2019/09/17/K-Means/" title="K-Means">http://lanjianwen.com/2019/09/17/K-Means/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
       
 
       <footer class="post-footer">
@@ -504,6 +538,11 @@
       </span>
     
   </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
 
 
 
@@ -519,17 +558,38 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">lanjianwen</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.0</div>
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
 
 
 
