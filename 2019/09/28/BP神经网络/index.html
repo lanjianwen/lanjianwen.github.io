@@ -55,14 +55,21 @@
   };
 </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="前言由于传统的感知器和线性神经网络有自身无法克服的缺陷，它们都不能解决线性不可分问题，因此在实际应用过程中受到了限制。而BP网络却拥有良好的繁泛化能力、容错能力以及非线性映射能力。因此成为应用最为广泛的一种神经网络。">
+<meta property="og:type" content="article">
 <meta property="og:title" content="BP神经网络">
 <meta property="og:url" content="http://lanjianwen.github.io/2019/09/28/BP神经网络/index.html">
 <meta property="og:site_name" content="lanjianwen&amp;blog">
+<meta property="og:description" content="前言由于传统的感知器和线性神经网络有自身无法克服的缺陷，它们都不能解决线性不可分问题，因此在实际应用过程中受到了限制。而BP网络却拥有良好的繁泛化能力、容错能力以及非线性映射能力。因此成为应用最为广泛的一种神经网络。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-28T13:52:48.808Z">
+<meta property="og:image" content="http://lanjianwen.github.io/2019/09/28/BP神经网络/1.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2019/09/28/BP神经网络/2.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2019/09/28/BP神经网络/3.png">
+<meta property="og:updated_time" content="2019-10-08T12:26:39.870Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BP神经网络">
+<meta name="twitter:description" content="前言由于传统的感知器和线性神经网络有自身无法克服的缺陷，它们都不能解决线性不可分问题，因此在实际应用过程中受到了限制。而BP网络却拥有良好的繁泛化能力、容错能力以及非线性映射能力。因此成为应用最为广泛的一种神经网络。">
+<meta name="twitter:image" content="http://lanjianwen.github.io/2019/09/28/BP神经网络/1.png">
   <link rel="canonical" href="http://lanjianwen.github.io/2019/09/28/BP神经网络/">
 
 
@@ -280,11 +287,19 @@
                 
               
 
-              <time title="创建时间：2019-09-28 21:52:10 / 修改时间：21:52:48" itemprop="dateCreated datePublished" datetime="2019-09-28T21:52:10+08:00">2019-09-28</time>
+              <time title="创建时间：2019-09-28 21:52:10" itemprop="dateCreated datePublished" datetime="2019-09-28T21:52:10+08:00">2019-09-28</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-10-08 20:26:39" itemprop="dateModified" datetime="2019-10-08T20:26:39+08:00">2019-10-08</time>
+              </span>
             
           
             <span class="post-meta-item">
@@ -334,7 +349,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由于传统的感知器和线性神经网络有自身无法克服的缺陷，它们都不能解决线性不可分问题，因此在实际应用过程中受到了限制。而BP网络却拥有良好的繁泛化能力、容错能力以及非线性映射能力。因此成为应用最为广泛的一种神经网络。</p>
+<a id="more"></a>
+<h3 id="基于BP算法的多层前馈型网络模型的拓扑结构图"><a href="#基于BP算法的多层前馈型网络模型的拓扑结构图" class="headerlink" title="基于BP算法的多层前馈型网络模型的拓扑结构图"></a>基于BP算法的多层前馈型网络模型的拓扑结构图</h3><p><img src="/2019/09/28/BP神经网络/1.png" alt="图1"></p>
+<h3 id="BP算法的基本思想学习过程"><a href="#BP算法的基本思想学习过程" class="headerlink" title="BP算法的基本思想学习过程"></a>BP算法的基本思想学习过程</h3><ol>
+<li>第一阶段:<br>第一阶段是信号的正向传播过程；输入信息通过输入层、隐层逐层处理并计算每个单元的实际输出值<br>举个例子:<img src="/2019/09/28/BP神经网络/2.png" alt="图2"><br>比如你有100万钱，分别投资三个公司。W为投资某个公司的钱占所有钱的百分比，V为每个公司的利润率,收益即为Y=100<em>W1</em>V1+100<em>W2</em>V2+100+W3*V3</li>
+<li>第二阶段:<br>第二阶段是误差的反向传递过程；若在输入层未能得到期望的输出值，则逐层递归的计算实际输出和期望输出的差值（即误差），以便根据此差值调节权值。这种过程不断迭代，最后使得信号误差达到允许或规定的范围之内<br>举个例子:有一个游戏叫做”数字炸弹”，规则:一般十个人以上玩，主持人出数字，其他人猜。主持人写下在1-100之间随便1个数字，不能让猜得人知道。其他的人就可以开始猜。如：56。每个人开始猜猜数字，如：A说:30 主持人说：30到100 ，B在从30到100中猜数字说：60，主持人在说：30到60，………… Z说：56，游戏结束<br><code>主持人反馈的信息就是反向传播</code><h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line">% BP网络</span><br><span class="line">% BP神经网络的构建</span><br><span class="line">net=newff([-1 2;0 5],[3,1],&#123;&apos;tansig&apos;,&apos;purelin&apos;&#125;,&apos;traingd&apos;)</span><br><span class="line">net.IW&#123;1&#125;</span><br><span class="line">net.b&#123;1&#125;</span><br><span class="line"></span><br><span class="line">p=[1;2];</span><br><span class="line">a=sim(net,p)</span><br><span class="line">net=init(net);</span><br><span class="line">net.IW&#123;1&#125;</span><br><span class="line">net.b&#123;1&#125;</span><br><span class="line">a=sim(net,p)</span><br><span class="line">%net.IW&#123;1&#125;*p+net.b&#123;1&#125;</span><br><span class="line">p2=net.IW&#123;1&#125;*p+net.b&#123;1&#125;</span><br><span class="line">a2=sign(p2)</span><br><span class="line">a3=tansig(a2)</span><br><span class="line">a4=purelin(a3)</span><br><span class="line">net.b&#123;2&#125;</span><br><span class="line">net.b&#123;1&#125;</span><br><span class="line"></span><br><span class="line">net.IW&#123;1&#125;</span><br><span class="line">net.IW&#123;2&#125;</span><br><span class="line">0.7616+net.b&#123;2&#125;</span><br><span class="line">a-net.b&#123;2&#125;</span><br><span class="line">(a-net.b&#123;2&#125;)/ 0.7616</span><br><span class="line">help purelin</span><br><span class="line"></span><br><span class="line">p1=[0;0];</span><br><span class="line">a5=sim(net,p1)</span><br><span class="line">net.b&#123;2&#125;</span><br><span class="line">% BP网络</span><br><span class="line">% BP神经网络的构建</span><br><span class="line">net=newff([-1 2;0 5],[3,1],&#123;&apos;tansig&apos;,&apos;purelin&apos;&#125;,&apos;traingd&apos;)</span><br><span class="line">net.IW&#123;1&#125;</span><br><span class="line">net.b&#123;1&#125;</span><br><span class="line">%p=[1;];</span><br><span class="line">p=[1;2];</span><br><span class="line">a=sim(net,p)</span><br><span class="line">net=init(net);</span><br><span class="line">net.IW&#123;1&#125;</span><br><span class="line">net.b&#123;1&#125;</span><br><span class="line">a=sim(net,p)</span><br><span class="line">net.IW&#123;1&#125;*p+net.b&#123;1&#125;</span><br><span class="line">p2=net.IW&#123;1&#125;*p+net.b&#123;1&#125;</span><br><span class="line">a2=sign(p2)</span><br><span class="line">a3=tansig(a2)</span><br><span class="line">a4=purelin(a3)</span><br><span class="line">net.b&#123;2&#125;</span><br><span class="line">net.b&#123;1&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">P=[1.2;3;0.5;1.6]</span><br><span class="line">W=[0.3 0.6 0.1 0.8]</span><br><span class="line">net1=newp([0 2;0 2;0 2;0 2],1,&apos;purelin&apos;);</span><br><span class="line">net2=newp([0 2;0 2;0 2;0 2],1,&apos;logsig&apos;);</span><br><span class="line">net3=newp([0 2;0 2;0 2;0 2],1,&apos;tansig&apos;);</span><br><span class="line">net4=newp([0 2;0 2;0 2;0 2],1,&apos;hardlim&apos;);</span><br><span class="line"></span><br><span class="line">net1.IW&#123;1&#125;</span><br><span class="line">net2.IW&#123;1&#125;</span><br><span class="line">net3.IW&#123;1&#125;</span><br><span class="line">net4.IW&#123;1&#125;</span><br><span class="line">net1.b&#123;1&#125;</span><br><span class="line">net2.b&#123;1&#125;</span><br><span class="line">net3.b&#123;1&#125;</span><br><span class="line">net4.b&#123;1&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">net1.IW&#123;1&#125;=W;</span><br><span class="line">net2.IW&#123;1&#125;=W;</span><br><span class="line">net3.IW&#123;1&#125;=W;</span><br><span class="line">net4.IW&#123;1&#125;=W;</span><br><span class="line"></span><br><span class="line">a1=sim(net1,P)</span><br><span class="line">a2=sim(net2,P)</span><br><span class="line">a3=sim(net3,P)</span><br><span class="line">a4=sim(net4,P)</span><br><span class="line"></span><br><span class="line">init(net1);</span><br><span class="line">net1.b&#123;1&#125;</span><br><span class="line"></span><br><span class="line">help tansig</span><br><span class="line"></span><br><span class="line">% 训练</span><br><span class="line">p=[-0.1 0.5]</span><br><span class="line">t=[-0.3 0.4]</span><br><span class="line">w_range=-2:0.4:2;</span><br><span class="line">b_range=-2:0.4:2;</span><br><span class="line"></span><br><span class="line">ES=errsurf(p,t,w_range,b_range,&apos;logsig&apos;);%单输入神经元的误差曲面</span><br><span class="line">plotes(w_range,b_range,ES)%绘制单输入神经元的误差曲面</span><br><span class="line">pause(0.5);</span><br><span class="line">hold off;</span><br><span class="line">net=newp([-2,2],1,&apos;logsig&apos;);</span><br><span class="line">net.trainparam.epochs=100;</span><br><span class="line">net.trainparam.goal=0.001;</span><br><span class="line">figure(2);</span><br><span class="line">[net,tr]=train(net,p,t);</span><br><span class="line">title(&apos;动态逼近&apos;)</span><br><span class="line">wight=net.iw&#123;1&#125;</span><br><span class="line">bias=net.b</span><br><span class="line">pause;</span><br><span class="line">close;</span><br><span class="line">% 练</span><br><span class="line">p=[-0.2 0.2 0.3 0.4]</span><br><span class="line">t=[-0.9 -0.2 1.2 2.0]</span><br><span class="line">h1=figure(1);</span><br><span class="line">net=newff([-2,2],[5,1],&#123;&apos;tansig&apos;,&apos;purelin&apos;&#125;,&apos;trainlm&apos;);</span><br><span class="line">net.trainparam.epochs=100;</span><br><span class="line">net.trainparam.goal=0.0001;</span><br><span class="line">net=train(net,p,t);</span><br><span class="line">a1=sim(net,p)</span><br><span class="line">pause;</span><br><span class="line">h2=figure(2);</span><br><span class="line">plot(p,t,&apos;*&apos;);</span><br><span class="line">title(&apos;样本&apos;)</span><br><span class="line">title(&apos;样本&apos;);</span><br><span class="line">xlabel(&apos;Input&apos;);</span><br><span class="line">ylabel(&apos;Output&apos;);</span><br><span class="line">pause;</span><br><span class="line">hold on;</span><br><span class="line">ptest1=[0.2 0.1]</span><br><span class="line">ptest2=[0.2 0.1 0.9]</span><br><span class="line">a1=sim(net,ptest1);</span><br><span class="line">a2=sim(net,ptest2);</span><br><span class="line"></span><br><span class="line">net.iw&#123;1&#125;</span><br><span class="line">net.iw&#123;2&#125;</span><br><span class="line">net.b&#123;1&#125;</span><br><span class="line">net.b&#123;2&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="结果截图"><a href="#结果截图" class="headerlink" title="结果截图"></a>结果截图</h3><p><img src="/2019/09/28/BP神经网络/3.png" alt="图3"></p>
+
     </div>
 
 	<div>
@@ -442,6 +467,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于BP算法的多层前馈型网络模型的拓扑结构图"><span class="nav-number">1.1.</span> <span class="nav-text">基于BP算法的多层前馈型网络模型的拓扑结构图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BP算法的基本思想学习过程"><span class="nav-number">1.2.</span> <span class="nav-text">BP算法的基本思想学习过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实现"><span class="nav-number">1.3.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果截图"><span class="nav-number">1.4.</span> <span class="nav-text">结果截图</span></a></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
@@ -537,7 +564,7 @@
 </div>
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共2k字</span>
+  <span class="post-count">博客全站共3.1k字</span>
 </div>
         
 <div class="busuanzi-count">
