@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="遗传算法解决TSP问题，研究不同参数组合对算法实验结果影响">
+<meta property="og:type" content="article">
+<meta property="og:title" content="遗传算法解决TSP问题">
+<meta property="og:url" content="http://lanjianwen.github.io/2019/11/19/遗传算法解决TSP问题/index.html">
+<meta property="og:site_name" content="lanjianwen&amp;blog">
+<meta property="og:description" content="遗传算法解决TSP问题，研究不同参数组合对算法实验结果影响">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191119222656812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191119225535249.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191119225551466.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191119225602737.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191119231157316.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191119232721924.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191119232400979.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191119232219385.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-11-19T15:55:53.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="遗传算法解决TSP问题">
+<meta name="twitter:description" content="遗传算法解决TSP问题，研究不同参数组合对算法实验结果影响">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20191119222656812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70">
+  <link rel="canonical" href="http://lanjianwen.github.io/2019/11/19/遗传算法解决TSP问题/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>遗传算法解决TSP问题 | lanjianwen&blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lanjianwen&blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-sitemap">
+      
+    
+
+    <a href="/sitemap.xml" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://lanjianwen.github.io/2019/11/19/遗传算法解决TSP问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lanjianwen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lanjianwen&blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">遗传算法解决TSP问题
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-11-19 22:12:34 / 修改时间：23:55:53" itemprop="dateCreated datePublished" datetime="2019-11-19T22:12:34+08:00">2019-11-19</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/计算智能/" itemprop="url" rel="index"><span itemprop="name">计算智能</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/11/19/遗传算法解决TSP问题/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/11/19/遗传算法解决TSP问题/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="遗传算法解决TSP问题，研究不同参数组合对算法实验结果影响"><a href="#遗传算法解决TSP问题，研究不同参数组合对算法实验结果影响" class="headerlink" title="遗传算法解决TSP问题，研究不同参数组合对算法实验结果影响"></a>遗传算法解决TSP问题，研究不同参数组合对算法实验结果影响</h2><a id="more"></a>
+<h2 id="遗传算法"><a href="#遗传算法" class="headerlink" title="遗传算法"></a>遗传算法</h2><h3 id="什么是遗传算法"><a href="#什么是遗传算法" class="headerlink" title="什么是遗传算法"></a>什么是遗传算法</h3><p>遗传算法（Genetic Algorithm, GA）是模拟达尔文生物进化论的自然选择和遗传学机理的生物进化过程的计算模型，是一种通过模拟自然进化过程搜索最优解的方法。<br>其主要特点是直接对结构对象进行操作，不存在求导和函数连续性的限定；具有内在的隐并行性和更好的全局寻优能力；采用概率化的寻优方法，不需要确定的规则就能自动获取和指导优化的搜索空间，自适应地调整搜索方向。<br>遗传算法以一种群体中的所有个体为对象，并利用随机化技术指导对一个被编码的参数空间进行高效搜索。其中，选择、交叉和变异构成了遗传算法的遗传操作；参数编码、初始群体的设定、适应度函数的设计、遗传操作设计、控制参数设定五个要素组成了遗传算法的核心内容。</p>
+<h3 id="遗传算法执行过程"><a href="#遗传算法执行过程" class="headerlink" title="遗传算法执行过程"></a>遗传算法执行过程</h3><p>遗传算法是从代表问题可能潜在的解集的一个种群（population）开始的，而一个种群则由经过基因（gene）编码的一定数目的个体(individual)组成。每个个体实际上是染色体(chromosome)带有特征的实体。<br>染色体作为遗传物质的主要载体，即多个基因的集合，其内部表现（即基因型）是某种基因组合，它决定了个体的形状的外部表现，如黑头发的特征是由染色体中控制这一特征的某种基因组合决定的。因此，在一开始需要实现从表现型到基因型的映射即编码工作。由于仿照基因编码的工作很复杂，我们往往进行简化，如二进制编码。<br>初代种群产生之后，按照适者生存和优胜劣汰的原理，逐代（generation）演化产生出越来越好的近似解，在每一代，根据问题域中个体的适应度（fitness）大小选择（selection）个体，并借助于自然遗传学的遗传算子（genetic operators）进行组合交叉（crossover）和变异（mutation），产生出代表新的解集的种群。<br>这个过程将导致种群像自然进化一样的后生代种群比前代更加适应于环境，末代种群中的最优个体经过解码（decoding），可以作为问题近似最优解。</p>
+<h3 id="图解过程"><a href="#图解过程" class="headerlink" title="图解过程"></a>图解过程</h3><p><img src="https://img-blog.csdnimg.cn/20191119222656812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70" alt="图1"></p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p>main.m</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line">%main</span><br><span class="line">clear;</span><br><span class="line">clc;</span><br><span class="line">%%%%%%%%%%%%%%%输入参数%%%%%%%%</span><br><span class="line">N=25;               %%城市的个数</span><br><span class="line">M=100;               %%种群的个数</span><br><span class="line">ITER=2000;               %%迭代次数</span><br><span class="line">%C_old=C;</span><br><span class="line">m=2;                %%适应值归一化淘汰加速指数</span><br><span class="line">Pc=0.8;             %%交叉概率</span><br><span class="line">Pmutation=0.05;       %%变异概率</span><br><span class="line">%%生成城市的坐标</span><br><span class="line">%pos=randn(N,2);</span><br><span class="line">load(&apos;cities.mat&apos;, &apos;pos&apos;);</span><br><span class="line">%%生成城市之间距离矩阵</span><br><span class="line">D=zeros(N,N);</span><br><span class="line">for i=1:N</span><br><span class="line">    for j=i+1:N</span><br><span class="line">        dis=(pos(i,1)-pos(j,1)).^2+(pos(i,2)-pos(j,2)).^2;</span><br><span class="line">        D(i,j)=dis^(0.5);</span><br><span class="line">        D(j,i)=D(i,j);</span><br><span class="line">    end</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">%%生成初始群体</span><br><span class="line"></span><br><span class="line">popm=zeros(M,N);</span><br><span class="line">for i=1:M</span><br><span class="line">    popm(i,:)=randperm(N);%随机排列，比如[2 4 5 6 1 3]</span><br><span class="line">end</span><br><span class="line">%%随机选择一个种群</span><br><span class="line">R=popm(1,:);</span><br><span class="line">figure(1);</span><br><span class="line">scatter(pos(:,1),pos(:,2),&apos;rx&apos;);%画出所有城市坐标</span><br><span class="line">axis([0 600 0 600]);</span><br><span class="line">figure(2);</span><br><span class="line">plot_route(pos,R);      %%画出初始种群对应各城市之间的连线</span><br><span class="line">axis([0 600 0 600]);</span><br><span class="line">%%初始化种群及其适应函数</span><br><span class="line">fitness=zeros(M,1);</span><br><span class="line">len=zeros(M,1);</span><br><span class="line"></span><br><span class="line">for i=1:M%计算每个染色体对应的总长度</span><br><span class="line">    len(i,1)=myLength(D,popm(i,:));</span><br><span class="line">end</span><br><span class="line">maxlen=max(len);%最大回路</span><br><span class="line">minlen=min(len);%最小回路</span><br><span class="line"></span><br><span class="line">fitness=fit(len,m,maxlen,minlen);</span><br><span class="line">rr=find(len==minlen);%找到最小值的下标，赋值为rr</span><br><span class="line">R=popm(rr(1,1),:);%提取该染色体，赋值为R</span><br><span class="line">for i=1:N</span><br><span class="line">    fprintf(&apos;%d &apos;,R(i));%把R顺序打印出来</span><br><span class="line">end</span><br><span class="line">fprintf(&apos;\n&apos;);</span><br><span class="line"></span><br><span class="line">fitness=fitness/sum(fitness);</span><br><span class="line">distance_min=zeros(ITER+1,1);  %%各次迭代的最小的种群的路径总长</span><br><span class="line">nn=M;</span><br><span class="line">iter=0;</span><br><span class="line">while iter&lt;=ITER</span><br><span class="line">    fprintf(&apos;迭代第%d次\n&apos;,iter);</span><br><span class="line">    %%选择操作</span><br><span class="line">    p=fitness./sum(fitness);</span><br><span class="line">    q=cumsum(p);%累加</span><br><span class="line">    for i=1:(M-1)</span><br><span class="line">        len_1(i,1)=myLength(D,popm(i,:));</span><br><span class="line">        r=rand;</span><br><span class="line">        tmp=find(r&lt;=q);</span><br><span class="line">        popm_sel(i,:)=popm(tmp(1),:);</span><br><span class="line">    end </span><br><span class="line">    [fmax,indmax]=max(fitness);%求当代最佳个体</span><br><span class="line">    popm_sel(M,:)=popm(indmax,:);</span><br><span class="line"></span><br><span class="line">    %%交叉操作</span><br><span class="line">    nnper=randperm(M);</span><br><span class="line">%    A=popm_sel(nnper(1),:);</span><br><span class="line"> %   B=popm_sel(nnper(2),:);</span><br><span class="line">    %%</span><br><span class="line">    for i=1:M*Pc*0.5</span><br><span class="line">        A=popm_sel(nnper(i),:);</span><br><span class="line">        B=popm_sel(nnper(i+1),:);</span><br><span class="line">        [A,B]=cross(A,B);</span><br><span class="line">  %      popm_sel(nnper(1),:)=A;</span><br><span class="line">  %      popm_sel(nnper(2),:)=B; </span><br><span class="line">         popm_sel(nnper(i),:)=A;</span><br><span class="line">         popm_sel(nnper(i+1),:)=B;</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    %%变异操作</span><br><span class="line">    for i=1:M</span><br><span class="line">        pick=rand;</span><br><span class="line">        while pick==0</span><br><span class="line">             pick=rand;</span><br><span class="line">        end</span><br><span class="line">        if pick&lt;=Pmutation</span><br><span class="line">           popm_sel(i,:)=Mutation(popm_sel(i,:));</span><br><span class="line">        end</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    %%求适应度函数</span><br><span class="line">    NN=size(popm_sel,1);</span><br><span class="line">    len=zeros(NN,1);</span><br><span class="line">    for i=1:NN</span><br><span class="line">        len(i,1)=myLength(D,popm_sel(i,:));</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    maxlen=max(len);</span><br><span class="line">    minlen=min(len);</span><br><span class="line">    distance_min(iter+1,1)=minlen;</span><br><span class="line">    fitness=fit(len,m,maxlen,minlen);</span><br><span class="line">    rr=find(len==minlen);</span><br><span class="line">    fprintf(&apos;minlen=%d\n&apos;,minlen);</span><br><span class="line">    R=popm_sel(rr(1,1),:);</span><br><span class="line">    for i=1:N</span><br><span class="line">        fprintf(&apos;%d &apos;,R(i));</span><br><span class="line">    end</span><br><span class="line">    fprintf(&apos;\n&apos;);</span><br><span class="line">    popm=[];</span><br><span class="line">    popm=popm_sel;</span><br><span class="line">    iter=iter+1;</span><br><span class="line">    %pause(1);</span><br><span class="line"></span><br><span class="line">end</span><br><span class="line">%end of while</span><br><span class="line"></span><br><span class="line">figure(3)</span><br><span class="line">plot_route(pos,R);</span><br><span class="line">axis([0 600 0 600]);</span><br><span class="line">figure(4)</span><br><span class="line">plot(distance_min);</span><br></pre></td></tr></table></figure>
+
+<p>交叉操作函数cross.m</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function [A,B]=cross(A,B)</span><br><span class="line">L=length(A);</span><br><span class="line">if L&lt;10</span><br><span class="line">    W=L;</span><br><span class="line">elseif ((L/10)-floor(L/10))&gt;=rand&amp;&amp;L&gt;10</span><br><span class="line">    W=ceil(L/10)+8;</span><br><span class="line">else</span><br><span class="line">    W=floor(L/10)+8;</span><br><span class="line">end</span><br><span class="line">%%W为需要交叉的位数</span><br><span class="line">p=unidrnd(L-W+1);%随机产生一个交叉位置</span><br><span class="line">%fprintf(&apos;p=%d &apos;,p);%交叉位置</span><br><span class="line">for i=1:W</span><br><span class="line">    x=find(A==B(1,p+i-1));</span><br><span class="line">    y=find(B==A(1,p+i-1));</span><br><span class="line">    [A(1,p+i-1),B(1,p+i-1)]=exchange(A(1,p+i-1),B(1,p+i-1));</span><br><span class="line">    [A(1,x),B(1,y)]=exchange(A(1,x),B(1,y));</span><br><span class="line">end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>对调函数exchange.m</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function [x,y]=exchange(x,y)</span><br><span class="line">temp=x;</span><br><span class="line">x=y;</span><br><span class="line">y=temp;</span><br><span class="line"> </span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>适应度函数fit.mat</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%适应度函数fit.m，每次迭代都要计算每个染色体在本种群内部的优先级别，类似归一化参数。越大约好！</span><br><span class="line">function fitness=fit(len,m,maxlen,minlen)</span><br><span class="line">fitness=len;</span><br><span class="line">for i=1:length(len)</span><br><span class="line">    fitness(i,1)=(1-(len(i,1)-minlen)/(maxlen-minlen+0.0001)).^m;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>变异函数Mutation.m</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function a=Mutation(A)</span><br><span class="line">index1=0;index2=0;</span><br><span class="line">nnper=randperm(size(A,2));</span><br><span class="line">index1=nnper(1);</span><br><span class="line">index2=nnper(2);</span><br><span class="line">%fprintf(&apos;index1=%d &apos;,index1);</span><br><span class="line">%fprintf(&apos;index2=%d &apos;,index2);</span><br><span class="line">temp=0;</span><br><span class="line">temp=A(index1);</span><br><span class="line">A(index1)=A(index2);</span><br><span class="line">A(index2)=temp;</span><br><span class="line">a=A;</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>染色体的路程代价函数myLength.m</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">%染色体的路程代价函数  mylength.m</span><br><span class="line">function len=myLength(D,p)%p是一个排列</span><br><span class="line">[N,NN]=size(D);</span><br><span class="line">len=D(p(1,N),p(1,1));</span><br><span class="line">for i=1:(N-1)</span><br><span class="line">    len=len+D(p(1,i),p(1,i+1));</span><br><span class="line">end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>连点画图函数plot_route.m</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function plot_route(a,R)</span><br><span class="line">scatter(a(:,1),a(:,2),&apos;rx&apos;);</span><br><span class="line">hold on;</span><br><span class="line">plot([a(R(1),1),a(R(length(R)),1)],[a(R(1),2),a(R(length(R)),2)]);</span><br><span class="line">hold on;</span><br><span class="line">for i=2:length(R)</span><br><span class="line">    x0=a(R(i-1),1);</span><br><span class="line">    y0=a(R(i-1),2);</span><br><span class="line">    x1=a(R(i),1);</span><br><span class="line">    y1=a(R(i),2);</span><br><span class="line">    xx=[x0,x1];</span><br><span class="line">    yy=[y0,y1];</span><br><span class="line">    plot(xx,yy);</span><br><span class="line">    hold on;</span><br><span class="line">end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>数据<br>交叉概率0.8<br>变异概率0.05<br>种群个数100<br>25个城市<br><img src="https://img-blog.csdnimg.cn/20191119225535249.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70" alt="图2"><br>minlen=2.326282e+03<br>50个城市<br><img src="https://img-blog.csdnimg.cn/20191119225551466.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70" alt="图2"><br>minlen=1.014044e+04<br>75个城市<br><img src="https://img-blog.csdnimg.cn/20191119225602737.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70" alt="图4"><br>minlen=1.302770e+04</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">分析由上图实验结果得知实验中城市数量越少，更早趋于停滞状态</span><br></pre></td></tr></table></figure>
+
+<p>25个城市<br>交叉概率0.5<br>变异概率0.05<br>种群个数50<br><img src="https://img-blog.csdnimg.cn/20191119231157316.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70" alt="图5"><br>交叉概率0.2<br>变异概率0.05<br>种群个数20<br><img src="https://img-blog.csdnimg.cn/20191119232721924.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70" alt="图6"><br>交叉概率0.8<br>变异概率0.05<br>种群个数20<br><img src="https://img-blog.csdnimg.cn/20191119232400979.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70" alt="图7"><br>交叉概率0.2<br>变异概率0.07<br>种群个数100<br><img src="https://img-blog.csdnimg.cn/20191119232219385.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xhbl9qaWFud2Vu,size_16,color_FFFFFF,t_70" alt="图8"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">分析：</span><br><span class="line">由上图实验结果可知：</span><br><span class="line">1.交叉概率越低，最后实验结果中最短路径越大。</span><br><span class="line">2.种群个数太大，实验结果中最短路径越大，种群个数太小波动太大，影响最后结果准确性。</span><br></pre></td></tr></table></figure>
+
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>1.交叉操作中的概率是用于判定两个个体是否进行交叉操作，一般都会比较大。<br>2.变异操作的概率是允许少数个体存在变异情况，以避免限入局部最优解。一般取值低于0.1</p>
+
+    </div>
+
+	<div>
+      
+        
+      
+	</div>
+	
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+	
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>lanjianwen</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://lanjianwen.github.io/2019/11/19/遗传算法解决TSP问题/" title="遗传算法解决TSP问题">http://lanjianwen.github.io/2019/11/19/遗传算法解决TSP问题/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/11/05/蚁群算法求TSP问题/" rel="next" title="蚁群算法求TSP问题">
+                  <i class="fa fa-chevron-left"></i> 蚁群算法求TSP问题
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#遗传算法解决TSP问题，研究不同参数组合对算法实验结果影响"><span class="nav-number">1.</span> <span class="nav-text">遗传算法解决TSP问题，研究不同参数组合对算法实验结果影响</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遗传算法"><span class="nav-number">2.</span> <span class="nav-text">遗传算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是遗传算法"><span class="nav-number">2.1.</span> <span class="nav-text">什么是遗传算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遗传算法执行过程"><span class="nav-number">2.2.</span> <span class="nav-text">遗传算法执行过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图解过程"><span class="nav-number">2.3.</span> <span class="nav-text">图解过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实现"><span class="nav-number">2.4.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结论"><span class="nav-number">2.5.</span> <span class="nav-text">结论</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lanjianwen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/lanjianwen" title="GitHub &rarr; https://github.com/lanjianwen" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:yourname@gmail.com" title="E-Mail &rarr; mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://weibo.com/yourname" title="Weibo &rarr; https://weibo.com/yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lanjianwen</span>
+</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共7.2k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'WiIu2EqRjQgcd06QV1wf6n50-MdYXbMMI',
+    appKey: 'j2LBbg8JQohH4c99Up4pLE4t',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>
