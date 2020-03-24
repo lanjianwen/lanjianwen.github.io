@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="全景图像拼接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="全景图像拼接">
+<meta property="og:url" content="http://lanjianwen.github.io/2020/03/24/全景图像拼接/index.html">
+<meta property="og:site_name" content="lanjianwen&amp;blog">
+<meta property="og:description" content="全景图像拼接">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/03/24/全景图像拼接/1.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/03/24/全景图像拼接/2.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/03/24/全景图像拼接/3.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/03/24/全景图像拼接/1.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/03/24/全景图像拼接/4.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/03/24/全景图像拼接/2.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/03/24/全景图像拼接/5.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/03/24/全景图像拼接/7.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/03/24/全景图像拼接/6.png">
+<meta property="og:updated_time" content="2020-03-24T10:20:52.282Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="全景图像拼接">
+<meta name="twitter:description" content="全景图像拼接">
+<meta name="twitter:image" content="http://lanjianwen.github.io/2020/03/24/全景图像拼接/1.png">
+  <link rel="canonical" href="http://lanjianwen.github.io/2020/03/24/全景图像拼接/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>全景图像拼接 | lanjianwen&blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lanjianwen&blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-sitemap">
+      
+    
+
+    <a href="/sitemap.xml" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://lanjianwen.github.io/2020/03/24/全景图像拼接/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lanjianwen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lanjianwen&blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">全景图像拼接
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-24 09:36:28 / 修改时间：18:20:52" itemprop="dateCreated datePublished" datetime="2020-03-24T09:36:28+08:00">2020-03-24</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/计算机视觉/" itemprop="url" rel="index"><span itemprop="name">计算机视觉</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/03/24/全景图像拼接/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2020/03/24/全景图像拼接/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="全景图像拼接"><a href="#全景图像拼接" class="headerlink" title="全景图像拼接"></a>全景图像拼接</h2><a id="more"></a>
+<h3 id="全景拼接原理介绍"><a href="#全景拼接原理介绍" class="headerlink" title="全景拼接原理介绍"></a>全景拼接原理介绍</h3><p>1、针对某个场景拍摄多张/序列图像<br>2、通过匹配特征（sift匹配）计算下一张图像与上一张图像之间的变换结构。<br>3、图像映射，将下一张图像叠加到上一张图像的坐标系中<br>4、变换后的融合/合成</p>
+<h4 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h4><p>1.针对固定点位拍摄多张图片，以中间图片为中心，实现图像的拼接融合<br><img src="/2020/03/24/全景图像拼接/1.png" alt="图1"><br>2.针对同一场景（需选取视差变化大的场景，也就是有近景目标），更换拍摄位置，分析拼接结果<br><img src="/2020/03/24/全景图像拼接/2.png" alt="图2"></p>
+<h4 id="进行SIF特征匹配"><a href="#进行SIF特征匹配" class="headerlink" title="进行SIF特征匹配"></a>进行SIF特征匹配</h4><p><img src="/2020/03/24/全景图像拼接/3.png" alt="图3"><br>存在相同特征点就会特征匹配</p>
+<h4 id="RANSAC-求解单应性矩阵"><a href="#RANSAC-求解单应性矩阵" class="headerlink" title="RANSAC 求解单应性矩阵"></a>RANSAC 求解单应性矩阵</h4><p>1.随机选择四对匹配特征<br>2.根据DLT计算单应矩阵 H (唯一解)<br>3.对所有匹配点，计算映射误差ε= ||pi’, H pi||<br>4.根据误差阈值，确定inliers（例如3-5像素）<br>5.针对最大inliers集合，重新计算单应矩阵 H</p>
+<h4 id="图像拼接"><a href="#图像拼接" class="headerlink" title="图像拼接"></a>图像拼接</h4><p>使用RANSAC算法估计出图像间的单应性矩阵，将所有的图像扭曲到一个公共的图像平面上。通常，这里的公共平面为中心图像平面。一种方法是创建一个很大的图像，比如将图像中全部填充0，使其和中心图像平行，然后将所有的图像扭曲到上面。由于我们所有的图像是由照相机水平旋转拍摄的，因此我们可以使用一个较简单的步骤：将中心图像左边或者右边的区域填充为0，以便为扭曲的图像腾出空间。</p>
+<h4 id="实验代码"><a href="#实验代码" class="headerlink" title="实验代码"></a>实验代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"># ch3_panorama_test.py</span><br><span class="line">from pylab import *</span><br><span class="line">from numpy import *</span><br><span class="line">from PIL import Image</span><br><span class="line"></span><br><span class="line"># If you have PCV installed, these imports should work</span><br><span class="line">from PCV.geometry import homography, warp</span><br><span class="line">from PCV.localdescriptors import sift</span><br><span class="line"></span><br><span class="line"># import os</span><br><span class="line"># root=os.getcwd()+&quot;\\&quot;</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">This is the panorama example from section 3.3.</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line"># set paths to data folder</span><br><span class="line">featname = [&apos;D:/Hexo/source/_posts/全景图像拼接/image/&apos; + str(i + 1) + &apos;.sift&apos; for i in range(4)]</span><br><span class="line">imname = [&apos;D:/Hexo/source/_posts/全景图像拼接/image/&apos; + str(i + 1) + &apos;.png&apos; for i in range(4)]</span><br><span class="line"></span><br><span class="line"># extract features and match</span><br><span class="line">l = &#123;&#125;</span><br><span class="line">d = &#123;&#125;</span><br><span class="line">for i in range(4):</span><br><span class="line">    sift.process_image(imname[i], featname[i])</span><br><span class="line">    l[i], d[i] = sift.read_features_from_file(featname[i])</span><br><span class="line"></span><br><span class="line">matches = &#123;&#125;</span><br><span class="line">for i in range(3):</span><br><span class="line">    matches[i] = sift.match(d[i + 1], d[i])</span><br><span class="line"></span><br><span class="line"># visualize the matches (Figure 3-11 in the book)</span><br><span class="line">for i in range(3):</span><br><span class="line">    im1 = array(Image.open(imname[i]).convert(&apos;F&apos;))</span><br><span class="line">    im2 = array(Image.open(imname[i + 1]).convert(&apos;F&apos;))</span><br><span class="line">    figure()</span><br><span class="line">    sift.plot_matches(im2, im1, l[i + 1], l[i], matches[i], show_below=True)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># function to convert the matches to hom. points</span><br><span class="line">def convert_points(j):</span><br><span class="line">    ndx = matches[j].nonzero()[0]</span><br><span class="line">    fp = homography.make_homog(l[j + 1][ndx, :2].T)</span><br><span class="line">    ndx2 = [int(matches[j][i]) for i in ndx]</span><br><span class="line">    tp = homography.make_homog(l[j][ndx2, :2].T)</span><br><span class="line"></span><br><span class="line">    # switch x and y - TODO this should move elsewhere</span><br><span class="line">    fp = vstack([fp[1], fp[0], fp[2]])</span><br><span class="line">    tp = vstack([tp[1], tp[0], tp[2]])</span><br><span class="line">    return fp, tp</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># estimate the homographies</span><br><span class="line">model = homography.RansacModel()</span><br><span class="line"></span><br><span class="line">fp, tp = convert_points(1)</span><br><span class="line">H_12 = homography.H_from_ransac(fp, tp, model)[0]  # im 1 to 2</span><br><span class="line"></span><br><span class="line">fp, tp = convert_points(0)</span><br><span class="line">H_01 = homography.H_from_ransac(fp, tp, model)[0]  # im 0 to 1</span><br><span class="line"></span><br><span class="line">tp, fp = convert_points(2)  # NB: reverse order</span><br><span class="line">H_32 = homography.H_from_ransac(fp, tp, model)[0]  # im 3 to 2</span><br><span class="line"></span><br><span class="line"># tp, fp = convert_points(3)  # NB: reverse order</span><br><span class="line"># H_43 = homography.H_from_ransac(fp, tp, model)[0]  # im 4 to 3</span><br><span class="line"></span><br><span class="line"># warp the images</span><br><span class="line">delta = 2000  # for padding and translation</span><br><span class="line"></span><br><span class="line">im1 = array(Image.open(imname[1]), &quot;uint8&quot;)</span><br><span class="line">im2 = array(Image.open(imname[2]), &quot;uint8&quot;)</span><br><span class="line">im_12 = warp.panorama(H_12, im1, im2, delta, delta)</span><br><span class="line"></span><br><span class="line">im1 = array(Image.open(imname[0]), &quot;f&quot;)</span><br><span class="line">im_02 = warp.panorama(dot(H_12, H_01), im1, im_12, delta, delta)</span><br><span class="line"></span><br><span class="line">im1 = array(Image.open(imname[3]), &quot;f&quot;)</span><br><span class="line">im_32 = warp.panorama(H_32, im1, im_02, delta, delta)</span><br><span class="line"></span><br><span class="line"># im1 = array(Image.open(imname[4]), &quot;f&quot;)</span><br><span class="line"># im_42 = warp.panorama(dot(H_32, H_43), im1, im_32, delta, 2 * delta)</span><br><span class="line"></span><br><span class="line">figure()</span><br><span class="line">imshow(array(im_32, &quot;uint8&quot;))</span><br><span class="line">axis(&apos;off&apos;)</span><br><span class="line">savefig(&quot;quanjing.png&quot;, dpi=800)</span><br><span class="line">show()</span><br></pre></td></tr></table></figure>
+
+<h4 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h4><p>原始数据<br><img src="/2020/03/24/全景图像拼接/1.png" alt="图1"><br>拼接结果<br><img src="/2020/03/24/全景图像拼接/4.png" alt="图1"><br><code>分析：四张图拼接，第一张图和第四张图差异较大，两张图就包含了拼接的全景。只有一条拼接缝较明显。整体拼接流畅，但是拼接后的右边部分显得太靠前，给人视觉不在同一水平线上。</code><br>原始数据<br><img src="/2020/03/24/全景图像拼接/2.png" alt="图1"><br>拼接结果<br><img src="/2020/03/24/全景图像拼接/5.png" alt="图1"><br><code>分析：这组数据由于，树是近景。站的太近拍摄，以至于树叶遮挡远景，造成特征点错配，没有找到拼接点。</code><br>原始数据<br><img src="/2020/03/24/全景图像拼接/7.png" alt="图1"><br>拼接结果<br><img src="/2020/03/24/全景图像拼接/6.png" alt="图1"><br><code>分析：这组数据是远近景。从不同角度和距离对树和远处的建筑物进行拍摄。可以发现远景建筑物的拼接效果很好。在近处的马路边缘水泥，由于移动距离，造成重叠部分减少，以至于扭曲图像，造成路边缘明显不衔接。</code></p>
+
+    </div>
+
+	<div>
+      
+        
+      
+	</div>
+	
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+	
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>lanjianwen</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://lanjianwen.github.io/2020/03/24/全景图像拼接/" title="全景图像拼接">http://lanjianwen.github.io/2020/03/24/全景图像拼接/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/03/08/SIFT特征提取与检索/" rel="next" title="SIFT特征提取与检索">
+                  <i class="fa fa-chevron-left"></i> SIFT特征提取与检索
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#全景图像拼接"><span class="nav-number">1.</span> <span class="nav-text">全景图像拼接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全景拼接原理介绍"><span class="nav-number">1.1.</span> <span class="nav-text">全景拼接原理介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据集"><span class="nav-number">1.1.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进行SIF特征匹配"><span class="nav-number">1.1.2.</span> <span class="nav-text">进行SIF特征匹配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RANSAC-求解单应性矩阵"><span class="nav-number">1.1.3.</span> <span class="nav-text">RANSAC 求解单应性矩阵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图像拼接"><span class="nav-number">1.1.4.</span> <span class="nav-text">图像拼接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实验代码"><span class="nav-number">1.1.5.</span> <span class="nav-text">实验代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实验结果"><span class="nav-number">1.1.6.</span> <span class="nav-text">实验结果</span></a></li></ol></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lanjianwen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/lanjianwen" title="GitHub &rarr; https://github.com/lanjianwen" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:yourname@gmail.com" title="E-Mail &rarr; mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://weibo.com/yourname" title="Weibo &rarr; https://weibo.com/yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lanjianwen</span>
+</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共20.8k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'WiIu2EqRjQgcd06QV1wf6n50-MdYXbMMI',
+    appKey: 'j2LBbg8JQohH4c99Up4pLE4t',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>
