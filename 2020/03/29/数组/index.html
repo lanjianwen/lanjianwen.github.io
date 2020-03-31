@@ -55,15 +55,21 @@
   };
 </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="模糊聚类">
-<meta property="og:url" content="http://lanjianwen.github.io/2019/10/27/模糊聚类/index.html">
+  <meta name="description" content="数组介绍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数组">
+<meta property="og:url" content="http://lanjianwen.github.io/2020/03/29/数组/index.html">
 <meta property="og:site_name" content="lanjianwen&amp;blog">
+<meta property="og:description" content="数组介绍">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-27T15:08:53.488Z">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/03/29/数组/1.jpg">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/03/29/数组/1.jpg">
+<meta property="og:updated_time" content="2020-03-29T16:22:15.211Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="模糊聚类">
-  <link rel="canonical" href="http://lanjianwen.github.io/2019/10/27/模糊聚类/">
+<meta name="twitter:title" content="数组">
+<meta name="twitter:description" content="数组介绍">
+<meta name="twitter:image" content="http://lanjianwen.github.io/2020/03/29/数组/1.jpg">
+  <link rel="canonical" href="http://lanjianwen.github.io/2020/03/29/数组/">
 
 
 <script id="page-configurations">
@@ -77,7 +83,7 @@
   };
 </script>
 
-  <title>模糊聚类 | lanjianwen&blog</title>
+  <title>数组 | lanjianwen&blog</title>
   
 
 
@@ -263,7 +269,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://lanjianwen.github.io/2019/10/27/模糊聚类/">
+    <link itemprop="mainEntityOfPage" href="http://lanjianwen.github.io/2020/03/29/数组/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lanjianwen">
@@ -275,7 +281,7 @@
       <meta itemprop="name" content="lanjianwen&blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">模糊聚类
+        <h1 class="post-title" itemprop="name headline">数组
 
           
         </h1>
@@ -291,7 +297,32 @@
                 
               
 
-              <time title="创建时间：2019-10-27 23:08:53" itemprop="dateCreated datePublished" datetime="2019-10-27T23:08:53+08:00">2019-10-27</time>
+              <time title="创建时间：2020-03-29 16:13:33" itemprop="dateCreated datePublished" datetime="2020-03-29T16:13:33+08:00">2020-03-29</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-30 00:22:15" itemprop="dateModified" datetime="2020-03-30T00:22:15+08:00">2020-03-30</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+              
             </span>
           
 
@@ -314,7 +345,7 @@
       
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2019/10/27/模糊聚类/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/10/27/模糊聚类/" itemprop="commentCount"></span></a>
+    <a title="valine" href="/2020/03/29/数组/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2020/03/29/数组/" itemprop="commentCount"></span></a>
   </span>
   
   
@@ -328,7 +359,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h2 id="数组介绍"><a href="#数组介绍" class="headerlink" title="数组介绍"></a>数组介绍</h2><a id="more"></a>
+<h3 id="数组概述"><a href="#数组概述" class="headerlink" title="数组概述"></a>数组概述</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><ul>
+<li>数组(Array): 所谓数组，是有序的元素序列。例如 <code>int[5] = {1，2，3，4，5};</code></li>
+<li>数组本身是引用数据类型，而数组中的元素可以是任何数据类型，包括<code>基本数据类型(byte,short,int,long,char,float,double,boolean)</code>和<code>引用数据类型(类(class)，接口(interface)，数组(array))</code>。</li>
+<li>创建数组对象会在内存中开辟一整块连续的空间，而数组名中引用的是这块连续空间的首地址。<h4 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h4>组成部分: 数组名、下标(索引)、元素、数组长度<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4>数组长度一旦确定就不能修改。<h3 id="一维数组"><a href="#一维数组" class="headerlink" title="一维数组"></a>一维数组</h3><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">package com.jmu;</span><br><span class="line"></span><br><span class="line">public class ArrayTest1 &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int array1[] = new int[5];</span><br><span class="line">		for(int i = 0; i &lt; array1.length; i++) &#123;</span><br><span class="line">			System.out.print(array1[i]+&quot; &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		//换行</span><br><span class="line">		System.out.println();</span><br><span class="line">		</span><br><span class="line">		String strArray[] = new String[3];</span><br><span class="line">		for(int i = 0; i &lt; strArray.length; i++) &#123;</span><br><span class="line">			System.out.print(strArray[i]+&quot; &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		//换行</span><br><span class="line">		System.out.println();</span><br><span class="line">		</span><br><span class="line">		//赋初值法1</span><br><span class="line">		int array2[] = new int[] &#123;1, 2, 3, 4, 5&#125;;</span><br><span class="line">		for(int i = 0; i &lt; array2.length; i++) &#123;</span><br><span class="line">			System.out.print(array2[i]+&quot; &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		//换行</span><br><span class="line">		System.out.println();</span><br><span class="line">		</span><br><span class="line">		//赋初值法2</span><br><span class="line">		int array3[] = new int[5];</span><br><span class="line">		for(int i = 0; i &lt; array3.length; i++) &#123;</span><br><span class="line">			array3[i] = i + 1;</span><br><span class="line">		&#125;</span><br><span class="line">		for(int i = 0; i &lt; array3.length; i++) &#123;</span><br><span class="line">			System.out.print(array3[i]+&quot; &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		//换行</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h4><p><img src="/2020/03/29/数组/1.jpg" alt="图1"></p>
+<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><ul>
+<li>int类型默认初始值为0，String类型初始值null。</li>
+<li>length为数组的长度，即元素个数。<h4 id="内存分析"><a href="#内存分析" class="headerlink" title="内存分析"></a>内存分析</h4></li>
+</ul>
+<h3 id="二维数组"><a href="#二维数组" class="headerlink" title="二维数组"></a>二维数组</h3><h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package com.jmu;</span><br><span class="line"></span><br><span class="line">public class ArrayTest2 &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int array1[][] = new int[][] &#123;&#123;1, 2, 3&#125;,&#123;4, 5, 6&#125;&#125;;</span><br><span class="line">		System.out.println(&quot;地址: &quot; + array1[0]);</span><br><span class="line">		for(int i = 0; i &lt; array1.length; i++) &#123;</span><br><span class="line">			for(int j = 0; j &lt; array1[i].length; j++) &#123;</span><br><span class="line">				System.out.print(array1[i][j] + &quot; &quot;);</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println();</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;************&quot;);</span><br><span class="line">		</span><br><span class="line">		int array2[][] = new int[3][];</span><br><span class="line">		System.out.println(array2[0]);</span><br><span class="line">		System.out.println(&quot;************&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="结果-1"><a href="#结果-1" class="headerlink" title="结果"></a>结果</h4><p><img src="/2020/03/29/数组/1.jpg" alt="图1"></p>
+<h4 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h4><ul>
+<li>二维数组可以看成是矩阵<h4 id="内存分析-1"><a href="#内存分析-1" class="headerlink" title="内存分析"></a>内存分析</h4></li>
+</ul>
+
     </div>
 
 	<div>
@@ -360,7 +410,7 @@
     <strong>本文作者： </strong>lanjianwen</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://lanjianwen.github.io/2019/10/27/模糊聚类/" title="模糊聚类">http://lanjianwen.github.io/2019/10/27/模糊聚类/</a>
+    <a href="http://lanjianwen.github.io/2020/03/29/数组/" title="数组">http://lanjianwen.github.io/2020/03/29/数组/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -376,8 +426,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/10/22/模糊控制/" rel="next" title="模糊控制">
-                  <i class="fa fa-chevron-left"></i> 模糊控制
+                <a href="/2020/03/24/全景图像拼接/" rel="next" title="全景图像拼接">
+                  <i class="fa fa-chevron-left"></i> 全景图像拼接
                 </a>
               
             </div>
@@ -386,8 +436,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/11/05/蚁群算法求TSP问题/" rel="prev" title="蚁群算法求TSP问题">
-                  蚁群算法求TSP问题 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/03/30/搭建SSM框架/" rel="prev" title="搭建SSM框架">
+                  搭建SSM框架 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -440,6 +490,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数组介绍"><span class="nav-number">1.</span> <span class="nav-text">数组介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数组概述"><span class="nav-number">1.1.</span> <span class="nav-text">数组概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义"><span class="nav-number">1.1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组成"><span class="nav-number">1.1.2.</span> <span class="nav-text">组成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺点"><span class="nav-number">1.1.3.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一维数组"><span class="nav-number">1.2.</span> <span class="nav-text">一维数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">1.2.1.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#结果"><span class="nav-number">1.2.2.</span> <span class="nav-text">结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析"><span class="nav-number">1.2.3.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存分析"><span class="nav-number">1.2.4.</span> <span class="nav-text">内存分析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二维数组"><span class="nav-number">1.3.</span> <span class="nav-text">二维数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#结果-1"><span class="nav-number">1.3.2.</span> <span class="nav-text">结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析-1"><span class="nav-number">1.3.3.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存分析-1"><span class="nav-number">1.3.4.</span> <span class="nav-text">内存分析</span></a></li></ol></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
