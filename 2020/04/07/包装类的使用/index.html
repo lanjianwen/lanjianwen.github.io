@@ -55,21 +55,21 @@
   };
 </script>
 
-  <meta name="description" content="基本数据类型和引用数据类型参数传递不同">
+  <meta name="description" content="包装类的使用基本数据类型+包装类+String类的相互转化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="参数传递机制">
-<meta property="og:url" content="http://lanjianwen.github.io/2020/04/05/参数传递机制/index.html">
+<meta property="og:title" content="包装类的使用">
+<meta property="og:url" content="http://lanjianwen.github.io/2020/04/07/包装类的使用/index.html">
 <meta property="og:site_name" content="lanjianwen&amp;blog">
-<meta property="og:description" content="基本数据类型和引用数据类型参数传递不同">
+<meta property="og:description" content="包装类的使用基本数据类型+包装类+String类的相互转化">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://lanjianwen.github.io/2020/04/05/参数传递机制/1.png">
-<meta property="og:image" content="http://lanjianwen.github.io/2020/04/05/参数传递机制/2.png">
-<meta property="og:updated_time" content="2020-04-05T03:09:46.904Z">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/07/包装类的使用/1.jpg">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/07/包装类的使用/2.jpg">
+<meta property="og:updated_time" content="2020-04-07T11:39:08.678Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="参数传递机制">
-<meta name="twitter:description" content="基本数据类型和引用数据类型参数传递不同">
-<meta name="twitter:image" content="http://lanjianwen.github.io/2020/04/05/参数传递机制/1.png">
-  <link rel="canonical" href="http://lanjianwen.github.io/2020/04/05/参数传递机制/">
+<meta name="twitter:title" content="包装类的使用">
+<meta name="twitter:description" content="包装类的使用基本数据类型+包装类+String类的相互转化">
+<meta name="twitter:image" content="http://lanjianwen.github.io/2020/04/07/包装类的使用/1.jpg">
+  <link rel="canonical" href="http://lanjianwen.github.io/2020/04/07/包装类的使用/">
 
 
 <script id="page-configurations">
@@ -83,7 +83,7 @@
   };
 </script>
 
-  <title>参数传递机制 | lanjianwen&blog</title>
+  <title>包装类的使用 | lanjianwen&blog</title>
   
 
 
@@ -269,7 +269,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://lanjianwen.github.io/2020/04/05/参数传递机制/">
+    <link itemprop="mainEntityOfPage" href="http://lanjianwen.github.io/2020/04/07/包装类的使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lanjianwen">
@@ -281,7 +281,7 @@
       <meta itemprop="name" content="lanjianwen&blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">参数传递机制
+        <h1 class="post-title" itemprop="name headline">包装类的使用
 
           
         </h1>
@@ -297,7 +297,7 @@
                 
               
 
-              <time title="创建时间：2020-04-05 10:51:29 / 修改时间：11:09:46" itemprop="dateCreated datePublished" datetime="2020-04-05T10:51:29+08:00">2020-04-05</time>
+              <time title="创建时间：2020-04-07 16:33:48 / 修改时间：19:39:08" itemprop="dateCreated datePublished" datetime="2020-04-07T16:33:48+08:00">2020-04-07</time>
             </span>
           
             
@@ -337,7 +337,7 @@
       
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2020/04/05/参数传递机制/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2020/04/05/参数传递机制/" itemprop="commentCount"></span></a>
+    <a title="valine" href="/2020/04/07/包装类的使用/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2020/04/07/包装类的使用/" itemprop="commentCount"></span></a>
   </span>
   
   
@@ -351,16 +351,25 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="基本数据类型和引用数据类型参数传递不同"><a href="#基本数据类型和引用数据类型参数传递不同" class="headerlink" title="基本数据类型和引用数据类型参数传递不同"></a>基本数据类型和引用数据类型参数传递不同</h2><a id="more"></a>
-<h3 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package com.jmu;</span><br><span class="line"></span><br><span class="line">public class PassValue &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int a = 10;</span><br><span class="line">		int b = 20;</span><br><span class="line">		PassValue pv = new PassValue();</span><br><span class="line">		System.out.println(&quot;初始： a=&quot; + a + &quot;, b=&quot;+b);</span><br><span class="line">		pv.swap(a,b);</span><br><span class="line">		System.out.println(&quot;传参后： a=&quot; + a + &quot;, b=&quot;+b);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void swap(int a, int b) &#123;</span><br><span class="line">		int temp = a;</span><br><span class="line">		a = b;</span><br><span class="line">		b = temp;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h2 id="包装类的使用"><a href="#包装类的使用" class="headerlink" title="包装类的使用"></a>包装类的使用</h2><p>基本数据类型+包装类+String类的相互转化</p>
+<a id="more"></a>
+<h3 id="八种基本数据类型"><a href="#八种基本数据类型" class="headerlink" title="八种基本数据类型"></a>八种基本数据类型</h3><p>byte,short,int,long,float,double,boolean,char</p>
+<h3 id="八种基本数据类型对应的包装类"><a href="#八种基本数据类型对应的包装类" class="headerlink" title="八种基本数据类型对应的包装类"></a>八种基本数据类型对应的包装类</h3><p>Byte,Short,Integer,Long,Double,Boolean,Character</p>
+<h3 id="基本数据类型-包装类-String类的相互转化"><a href="#基本数据类型-包装类-String类的相互转化" class="headerlink" title="基本数据类型+包装类+String类的相互转化"></a>基本数据类型+包装类+String类的相互转化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public class Wrapper &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		//JDK1.5以前</span><br><span class="line">		//装箱</span><br><span class="line">		int x = 5;</span><br><span class="line">		Integer y = new Integer(x);</span><br><span class="line">		System.out.println(&quot;y = &quot; + y);</span><br><span class="line">		//拆箱</span><br><span class="line">		Integer m = new Integer(10);</span><br><span class="line">		int n = m.intValue();</span><br><span class="line">		System.out.println(&quot;n = &quot; + n);</span><br><span class="line">		</span><br><span class="line">		//JDK1.5以后</span><br><span class="line">		//自动装箱</span><br><span class="line">		Integer t = 55;</span><br><span class="line">		//自动拆箱</span><br><span class="line">		int a = new Integer(10);</span><br><span class="line">		</span><br><span class="line">		//字符串转基本数据类型1</span><br><span class="line">		int s = new Integer(&quot;123&quot;);</span><br><span class="line">		System.out.println(&quot;s = &quot; + s);</span><br><span class="line">		//字符串转基本数据类型1</span><br><span class="line">		float s1 = Float.parseFloat(&quot;123&quot;);</span><br><span class="line">		System.out.println(&quot;s1 = &quot; + s1);</span><br><span class="line">		</span><br><span class="line">		//基本数据类型转字符串1</span><br><span class="line">		String str = 123 + &quot;&quot;;</span><br><span class="line">		System.out.println(&quot;str = &quot; + str);</span><br><span class="line">		//基本数据类型转字符串2</span><br><span class="line">		String str1 = String.valueOf(100);</span><br><span class="line">		System.out.println(&quot;str1 = &quot; + str1);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/04/05/参数传递机制/1.png" alt="图"></p>
-<h3 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">package com.jmu;</span><br><span class="line"></span><br><span class="line">public class PassValue &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		Data data = new Data();</span><br><span class="line">		data.x = 10;</span><br><span class="line">		data.y = 20;</span><br><span class="line">		PassValue pv = new PassValue();</span><br><span class="line">		System.out.println(&quot;初始： x=&quot; + data.x + &quot;, y=&quot; + data.y);</span><br><span class="line">		pv.swap(data);</span><br><span class="line">		System.out.println(&quot;传参后： x=&quot; + data.x + &quot;, y=&quot; + data.y);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void swap(Data data) &#123;</span><br><span class="line">		int temp = data.x;</span><br><span class="line">		data.x = data.y;</span><br><span class="line">		data.y = temp;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Data&#123;</span><br><span class="line">	int x;</span><br><span class="line">	int y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/2020/04/07/包装类的使用/1.jpg" alt="图"></p>
+<ul>
+<li>装箱可以通过包装类构造器实现</li>
+<li>拆箱可以通过调用包装类xxxValue()方法实现</li>
+<li>字符串转基本数据类型可以调用包装类构造器</li>
+<li>字符串转基本数据类型可以通过Xxx.parseXxx()实现</li>
+<li>基本数据类型转字符串可以调用String.valueOf()实现<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Test</span><br><span class="line">public void testWrapper() &#123;</span><br><span class="line">	Integer x = 1;</span><br><span class="line">	Integer y = 1;</span><br><span class="line">	System.out.println(x == y);</span><br><span class="line">	</span><br><span class="line">	Integer m = 128;</span><br><span class="line">	Integer n = 128;</span><br><span class="line">	System.out.println(m == n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/04/05/参数传递机制/2.png" alt="图"></p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li>基本数据类型参数传递，传的是数据</li>
-<li>引用数据类型参数传递传的是地址</li>
+</li>
+</ul>
+<p><img src="/2020/04/07/包装类的使用/2.jpg" alt="图"></p>
+<ul>
+<li>Integer类中有一个内部静态类IntegerCache,自动装箱时，如果值范围在(-128,127)之间，会将值赋给Integer。如果超出这个范围，仍然会再去new一个Integer对象</li>
 </ul>
 
     </div>
@@ -394,7 +403,7 @@
     <strong>本文作者： </strong>lanjianwen</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://lanjianwen.github.io/2020/04/05/参数传递机制/" title="参数传递机制">http://lanjianwen.github.io/2020/04/05/参数传递机制/</a>
+    <a href="http://lanjianwen.github.io/2020/04/07/包装类的使用/" title="包装类的使用">http://lanjianwen.github.io/2020/04/07/包装类的使用/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -410,8 +419,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2020/03/31/算法/" rel="next" title="算法">
-                  <i class="fa fa-chevron-left"></i> 算法
+                <a href="/2020/04/07/张正友相机标定法/" rel="next" title="张正友相机标定法">
+                  <i class="fa fa-chevron-left"></i> 张正友相机标定法
                 </a>
               
             </div>
@@ -419,10 +428,6 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2020/04/07/面向对象三个基本特征/" rel="prev" title="面向对象三个基本特征">
-                  面向对象三个基本特征 <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -474,7 +479,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本数据类型和引用数据类型参数传递不同"><span class="nav-number">1.</span> <span class="nav-text">基本数据类型和引用数据类型参数传递不同</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本数据类型"><span class="nav-number">1.1.</span> <span class="nav-text">基本数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用数据类型"><span class="nav-number">1.2.</span> <span class="nav-text">引用数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#包装类的使用"><span class="nav-number">1.</span> <span class="nav-text">包装类的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#八种基本数据类型"><span class="nav-number">1.1.</span> <span class="nav-text">八种基本数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八种基本数据类型对应的包装类"><span class="nav-number">1.2.</span> <span class="nav-text">八种基本数据类型对应的包装类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本数据类型-包装类-String类的相互转化"><span class="nav-number">1.3.</span> <span class="nav-text">基本数据类型+包装类+String类的相互转化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">1.4.</span> <span class="nav-text">注意</span></a></li></ol></li></ol></div>
         
       </div>
       <!--/noindex-->
