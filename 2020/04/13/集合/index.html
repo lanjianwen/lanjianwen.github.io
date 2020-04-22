@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Java集合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="集合">
+<meta property="og:url" content="http://lanjianwen.github.io/2020/04/13/集合/index.html">
+<meta property="og:site_name" content="lanjianwen&amp;blog">
+<meta property="og:description" content="Java集合">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-04-14T06:54:13.342Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="集合">
+<meta name="twitter:description" content="Java集合">
+  <link rel="canonical" href="http://lanjianwen.github.io/2020/04/13/集合/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>集合 | lanjianwen&blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lanjianwen&blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-sitemap">
+      
+    
+
+    <a href="/sitemap.xml" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://lanjianwen.github.io/2020/04/13/集合/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lanjianwen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lanjianwen&blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">集合
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-13 16:10:46" itemprop="dateCreated datePublished" datetime="2020-04-13T16:10:46+08:00">2020-04-13</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-14 14:54:13" itemprop="dateModified" datetime="2020-04-14T14:54:13+08:00">2020-04-14</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/04/13/集合/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2020/04/13/集合/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Java集合"><a href="#Java集合" class="headerlink" title="Java集合"></a>Java集合</h2><a id="more"></a>
+<h3 id="为什么要使用Java集合"><a href="#为什么要使用Java集合" class="headerlink" title="为什么要使用Java集合"></a>为什么要使用Java集合</h3><p>数组弊端:<br>1.数组一旦初始化，长度就已经不可再改变<br>2.数组声明的类型初始化就决定数组类型，不可更改<br>3.数组数据有序，可重复</p>
+<h3 id="Collection父接口，对象的集合，单列集合"><a href="#Collection父接口，对象的集合，单列集合" class="headerlink" title="Collection父接口，对象的集合，单列集合"></a>Collection父接口，对象的集合，单列集合</h3><p>常用方法</p>
+<ol>
+<li>add(Object obj)添加元素</li>
+<li>addAll(Collection coll)添加一个集合</li>
+<li>size()集合大小</li>
+<li>isEmpty()判断集合是否为空</li>
+<li>clear()清空集合</li>
+<li>contains(Object obj)判断是否包含某元素，通过元素的equals方法来判断</li>
+<li>containsAll(Collection coll)判断是否包含某集合，通过元素的equals方法来判断</li>
+<li>remove(Object obj)移除某元素</li>
+<li>removeAll(Collection coll)移除集合中所有包含coll集合</li>
+<li>retainsAll(Collection coll)返回两个集合的交集</li>
+<li>equals(Object obj)比较两个对象是否相等</li>
+<li>hasCode()获取哈希值</li>
+<li>toArray()集合转换为数组</li>
+<li>iterator()返回迭代器对象，用于集合遍历</li>
+</ol>
+<h4 id="List接口，有序，可重复的集合"><a href="#List接口，有序，可重复的集合" class="headerlink" title="List接口，有序，可重复的集合"></a>List接口，有序，可重复的集合</h4><ul>
+<li>常用方法</li>
+</ul>
+<ol>
+<li>void add(int index, Object ele):在index位置插入ele元素</li>
+<li>boolean addAll(int index, Collection eles):从index位置开始将eles中的所有元素添加进来</li>
+<li>Object get(int index):获取指定index位置的元素</li>
+<li>int indexOf(Object obj):返回obj在集合中首次出现的位置</li>
+<li>int lastIndexOf(Object obj):返回obj在当前集合中末次出现的位置</li>
+<li>Object remove(int index):移除指定index位置的元素，并返回此元素</li>
+<li>Object set(int index, Object ele):设置指定index位置的元素为ele</li>
+<li>List subList(int fromIndex, int toIndex):返回从fromIndex到toIndex位置的子集合<h5 id="ArratList接口实现类，数组存储，没有同步，线程不安全-效率高"><a href="#ArratList接口实现类，数组存储，没有同步，线程不安全-效率高" class="headerlink" title="ArratList接口实现类，数组存储，没有同步，线程不安全,效率高"></a>ArratList接口实现类，数组存储，没有同步，线程不安全,效率高</h5></li>
+</ol>
+<ul>
+<li>底层原理</li>
+</ul>
+<ol>
+<li>JDK1.7：ArrayList像饿汉式，直接创建一个初始容量为10的数组</li>
+<li>JDK1.8：ArrayList像懒汉式，一开始创建一个长度为0的数组，当添加第一个元素时再创建一个始容量为10的数组</li>
+<li>Arrays.asList(…) 方法返回的 List 集合，既不是ArrayList 实例，也不是Vector 实例。Arrays.asList(…)  返回值是一个固定长度的 List 集合<h5 id="LinkedList接口实现类，链表存储，没有同步，线程不安全"><a href="#LinkedList接口实现类，链表存储，没有同步，线程不安全" class="headerlink" title="LinkedList接口实现类，链表存储，没有同步，线程不安全"></a>LinkedList接口实现类，链表存储，没有同步，线程不安全</h5></li>
+</ol>
+<ul>
+<li>新增方法</li>
+</ul>
+<ol>
+<li>void addFirst(Object obj)开头添加一个元素</li>
+<li>void addLast(Object obj)末尾添加一个元素</li>
+<li>Object getFirst()获取首个元素</li>
+<li>Object getLast()获取最后一个元素</li>
+<li>Object removeFirst()移除首个元素</li>
+<li>Object removeLast()移除末尾元素<h5 id="Vector-接口实现类-数组存储，同步，线程安全"><a href="#Vector-接口实现类-数组存储，同步，线程安全" class="headerlink" title="Vector 接口实现类 数组存储，同步，线程安全"></a>Vector 接口实现类 数组存储，同步，线程安全</h5></li>
+<li>void addElement(Object obj) 添加元素</li>
+<li>void insertElementAt(Object obj,int index) 指定索引添加元素</li>
+<li>void setElementAt(Object obj,int index) 指定索引修改元素</li>
+<li>void removeElement(Object obj) 移除元素</li>
+<li>void removeAllElements() 移除所有元素<h4 id="Set接口，无序，不可重复的集合"><a href="#Set接口，无序，不可重复的集合" class="headerlink" title="Set接口，无序，不可重复的集合"></a>Set接口，无序，不可重复的集合</h4><h5 id="HashSet接口实现类，哈希表存储"><a href="#HashSet接口实现类，哈希表存储" class="headerlink" title="HashSet接口实现类，哈希表存储"></a>HashSet接口实现类，哈希表存储</h5></li>
+</ol>
+<ul>
+<li>添加元素过程</li>
+</ul>
+<ol>
+<li>当向 HashSet 集合中存入一个元素时，HashSet 会调用该对象的 hashCode() 方法来得到该对象的 hashCode 值，然后根据 hashCode 值，通过某种散列函数决定该对象在 HashSet 底层数组中的存储位置。</li>
+<li>如果两个元素的hashCode()值相等，会再继续调用equals方法，如果equals方法结果为true，添加失败；如果为false，那么会保存该元素，但是该数组的位置已经有元素了，那么会通过链表的方式继续链接。</li>
+<li>如果两个元素的 equals() 方法返回 true，但它们的 hashCode() 返回值不相等，hashSet 将会把它们存储在不同的位置，但依然可以添加成功。<h5 id="LinkedHashSet继承HashSet链表存储"><a href="#LinkedHashSet继承HashSet链表存储" class="headerlink" title="LinkedHashSet继承HashSet链表存储"></a>LinkedHashSet继承HashSet链表存储</h5></li>
+<li>LinkedHashSet 根据元素的 hashCode 值来决定元素的存储位置，但它同时使用双向链表维护元素的次序，这使得元素看起来是以插入顺序保存的。</li>
+<li>LinkedHashSet插入性能略低于 HashSet，但在迭代访问 Set 里的全部元素时有很好的性能</li>
+<li>LinkedHashSet 不允许集合元素重复<h5 id="TreeSet实现类，底层为二叉树"><a href="#TreeSet实现类，底层为二叉树" class="headerlink" title="TreeSet实现类，底层为二叉树"></a>TreeSet实现类，底层为二叉树</h5></li>
+<li>TreeSet 是 SortedSet 接口的实现类，TreeSet 可以确保集合元素处于排序状态。</li>
+<li>TreeSet 两种排序方法：自然排序和定制排序。默认情况下，TreeSet 采用自然排序。</li>
+<li>TreeSet底层使用红黑树结构存储数据<h3 id="Map接口，键值对-key-value-的集合-双列集合"><a href="#Map接口，键值对-key-value-的集合-双列集合" class="headerlink" title="Map接口，键值对(key,value)的集合,双列集合"></a>Map接口，键值对(key,value)的集合,双列集合</h3>Map用于保存具有映射关系的数据，Map里保存着两组数据：key和value，它们都可以使任何引用类型的数据，但key不能重复(使用set)。所以通过指定的key就可以取出对应的value,可以重复(使用collection)</li>
+</ol>
+<ul>
+<li>常用方法</li>
+</ul>
+<ol>
+<li>Object put(Object key,Object value)：将指定key-value添加到(或修改)当前map对象中</li>
+<li>void putAll(Map m):将m中的所有key-value对存放到当前map中</li>
+<li>Object remove(Object key)：移除指定key的key-value对，并返回value</li>
+<li>void clear()：清空当前map中的所有数据</li>
+<li>Object get(Object key)：获取指定key对应的value</li>
+<li>boolean containsKey(Object key)：是否包含指定的key</li>
+<li>boolean containsValue(Object value)：是否包含指定的value</li>
+<li>int size()：返回map中key-value对的个数</li>
+<li>boolean isEmpty()：判断当前map是否为空</li>
+<li>boolean equals(Object obj)：判断当前map和参数对象obj是否相等</li>
+<li>Set keySet()：返回所有key构成的Set集合</li>
+<li>Collection values()：返回所有value构成的Collection集合</li>
+<li>Set entrySet()：返回所有key-value对构成的Set集合<h4 id="HashMap实现类，没有同步，线程不安全"><a href="#HashMap实现类，没有同步，线程不安全" class="headerlink" title="HashMap实现类，没有同步，线程不安全"></a>HashMap实现类，没有同步，线程不安全</h4></li>
+<li>允许使用null键和null值，与HashSet一样，不保证映射的顺序。</li>
+<li>所有的key构成的集合是Set:无序的、不可重复的。所以，key所在的类要重写：equals()和hashCode()</li>
+<li>所有的value构成的集合是Collection:无序的、可以重复的。所以，value所在的类要重写：equals()</li>
+<li>一个key-value构成一个entry</li>
+<li>所有的entry构成的集合是Set:无序的、不可重复的</li>
+<li>HashMap 判断两个 key 相等的标准是：两个 key 通过 equals() 方法返回 true， hashCode 值也相等。</li>
+<li>HashMap 判断两个 value相等的标准是：两个 value 通过 equals() 方法返回 true。</li>
+</ol>
+<ul>
+<li>存储</li>
+</ul>
+<ol>
+<li>JDK 7及以前版本：HashMap是数组+链表结构(即为链地址法)</li>
+<li>JDK 8版本发布以后：HashMap是数组+链表+红黑树实现。<h5 id="LinkdeHashMap-继承HashMap，双向链表存储"><a href="#LinkdeHashMap-继承HashMap，双向链表存储" class="headerlink" title="LinkdeHashMap 继承HashMap，双向链表存储"></a>LinkdeHashMap 继承HashMap，双向链表存储</h5></li>
+<li>LinkedHashMap 是 HashMap 的子类</li>
+<li>在HashMap存储结构的基础上，使用了一对双向链表来记录添加元素的顺序</li>
+<li>与LinkedHashSet类似，LinkedHashMap 可以维护 Map 的迭代顺序：迭代顺序与 Key-Value 对的插入顺序一致<h4 id="Hashtables实现类，同步，线程安全"><a href="#Hashtables实现类，同步，线程安全" class="headerlink" title="Hashtables实现类，同步，线程安全"></a>Hashtables实现类，同步，线程安全</h4></li>
+<li>Hashtable是个古老的 Map 实现类，JDK1.0就提供了。不同于HashMap， Hashtable是线程安全的。</li>
+<li>Hashtable实现原理和HashMap相同，功能相同。底层都使用哈希表结构，查询速度快，很多情况下可以互用。</li>
+<li>与HashMap不同，Hashtable 不允许使用 null 作为 key 和 value</li>
+<li>与HashMap一样，Hashtable 也不能保证其中 Key-Value 对的顺序</li>
+<li>Hashtable判断两个key相等、两个value相等的标准，与HashMap一致。<h4 id="TreeMap-旧版jdk实现类，同步，线程安全"><a href="#TreeMap-旧版jdk实现类，同步，线程安全" class="headerlink" title="TreeMap 旧版jdk实现类，同步，线程安全"></a>TreeMap 旧版jdk实现类，同步，线程安全</h4></li>
+<li>TreeMap存储 Key-Value 对时，需要根据 key-value 对进行排序。 TreeMap 可以保证所有的 Key-Value 对处于有序状态。</li>
+<li>TreeSet底层使用红黑树结构存储数据</li>
+<li>TreeMap 的 Key 的排序：</li>
+<li>1 自然排序：TreeMap 的所有的 Key 必须实现 Comparable 接口，而且所有的 Key 应该是同一个类的对象，否则将会抛出 ClasssCastException</li>
+<li>2 定制排序：创建 TreeMap 时，传入一个 Comparator 对象，该对象负责对TreeMap 中的所有 key 进行排序。此时不需要 Map 的 Key 实现Comparable 接口</li>
+<li>TreeMap判断两个key相等的标准：两个key通过compareTo()方法或者compare()方法返回0。<h5 id="Properties用来处理配置文件，key和value都是String类型"><a href="#Properties用来处理配置文件，key和value都是String类型" class="headerlink" title="Properties用来处理配置文件，key和value都是String类型"></a>Properties用来处理配置文件，key和value都是String类型</h5></li>
+<li>Properties 类是 Hashtable 的子类，该对象用于处理属性文件</li>
+<li>由于属性文件里的 key、value 都是字符串类型，所以 Properties 里的 key和 value 都是字符串类型</li>
+<li>存取数据时，建议使用setProperty(String key,String value)方法和getProperty(String key)方法</li>
+</ol>
+
+    </div>
+
+	<div>
+      
+        
+      
+	</div>
+	
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+	
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>lanjianwen</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://lanjianwen.github.io/2020/04/13/集合/" title="集合">http://lanjianwen.github.io/2020/04/13/集合/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/04/12/枚举/" rel="next" title="枚举">
+                  <i class="fa fa-chevron-left"></i> 枚举
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2020/04/21/求解图像之间的基础矩阵/" rel="prev" title="求解图像之间的基础矩阵">
+                  求解图像之间的基础矩阵 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java集合"><span class="nav-number">1.</span> <span class="nav-text">Java集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要使用Java集合"><span class="nav-number">1.1.</span> <span class="nav-text">为什么要使用Java集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Collection父接口，对象的集合，单列集合"><span class="nav-number">1.2.</span> <span class="nav-text">Collection父接口，对象的集合，单列集合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#List接口，有序，可重复的集合"><span class="nav-number">1.2.1.</span> <span class="nav-text">List接口，有序，可重复的集合</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ArratList接口实现类，数组存储，没有同步，线程不安全-效率高"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">ArratList接口实现类，数组存储，没有同步，线程不安全,效率高</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LinkedList接口实现类，链表存储，没有同步，线程不安全"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">LinkedList接口实现类，链表存储，没有同步，线程不安全</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Vector-接口实现类-数组存储，同步，线程安全"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">Vector 接口实现类 数组存储，同步，线程安全</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Set接口，无序，不可重复的集合"><span class="nav-number">1.2.2.</span> <span class="nav-text">Set接口，无序，不可重复的集合</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#HashSet接口实现类，哈希表存储"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">HashSet接口实现类，哈希表存储</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#LinkedHashSet继承HashSet链表存储"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">LinkedHashSet继承HashSet链表存储</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TreeSet实现类，底层为二叉树"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">TreeSet实现类，底层为二叉树</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Map接口，键值对-key-value-的集合-双列集合"><span class="nav-number">1.3.</span> <span class="nav-text">Map接口，键值对(key,value)的集合,双列集合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HashMap实现类，没有同步，线程不安全"><span class="nav-number">1.3.1.</span> <span class="nav-text">HashMap实现类，没有同步，线程不安全</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#LinkdeHashMap-继承HashMap，双向链表存储"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">LinkdeHashMap 继承HashMap，双向链表存储</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hashtables实现类，同步，线程安全"><span class="nav-number">1.3.2.</span> <span class="nav-text">Hashtables实现类，同步，线程安全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TreeMap-旧版jdk实现类，同步，线程安全"><span class="nav-number">1.3.3.</span> <span class="nav-text">TreeMap 旧版jdk实现类，同步，线程安全</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Properties用来处理配置文件，key和value都是String类型"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">Properties用来处理配置文件，key和value都是String类型</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lanjianwen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/lanjianwen" title="GitHub &rarr; https://github.com/lanjianwen" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:yourname@gmail.com" title="E-Mail &rarr; mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://weibo.com/yourname" title="Weibo &rarr; https://weibo.com/yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lanjianwen</span>
+</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共30k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'WiIu2EqRjQgcd06QV1wf6n50-MdYXbMMI',
+    appKey: 'j2LBbg8JQohH4c99Up4pLE4t',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>

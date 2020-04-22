@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="图像之间的基础矩阵">
+<meta property="og:type" content="article">
+<meta property="og:title" content="求解图像之间的基础矩阵">
+<meta property="og:url" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/index.html">
+<meta property="og:site_name" content="lanjianwen&amp;blog">
+<meta property="og:description" content="图像之间的基础矩阵">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/1.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/2.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/3.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/4.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/5.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/6.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/8.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/9.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/7.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/10.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/11.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/12.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/13.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/14.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/15.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/16.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/17.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/18.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/19.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/20.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/21.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/22.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/23.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/24.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/25.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/1-1.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/1-2.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/1-3.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/2-1.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/2-.png">
+<meta property="og:updated_time" content="2020-04-22T00:55:50.030Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="求解图像之间的基础矩阵">
+<meta name="twitter:description" content="图像之间的基础矩阵">
+<meta name="twitter:image" content="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/1.png">
+  <link rel="canonical" href="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>求解图像之间的基础矩阵 | lanjianwen&blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lanjianwen&blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-sitemap">
+      
+    
+
+    <a href="/sitemap.xml" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lanjianwen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lanjianwen&blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">求解图像之间的基础矩阵
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-21 11:41:10" itemprop="dateCreated datePublished" datetime="2020-04-21T11:41:10+08:00">2020-04-21</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-22 08:55:50" itemprop="dateModified" datetime="2020-04-22T08:55:50+08:00">2020-04-22</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/计算机视觉/" itemprop="url" rel="index"><span itemprop="name">计算机视觉</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/04/21/求解图像之间的基础矩阵/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2020/04/21/求解图像之间的基础矩阵/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="图像之间的基础矩阵"><a href="#图像之间的基础矩阵" class="headerlink" title="图像之间的基础矩阵"></a>图像之间的基础矩阵</h2><a id="more"></a>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>基础矩阵，存在这么一个矩阵F，使得空间中不在两图像平面上的任意点X分别在两图像的投影坐标x,x’满足等式(x’)TFx=0，即x’的转置乘以F，再乘以x的结果为0，那么F就是左边图像到右边图像的基本矩阵，从公式上可以看出基本矩阵是有方向的，右图到左图的基本矩阵就是F的转置。其中，矩阵F为3乘3的矩阵，秩为2。</p>
+<h3 id="对极几何"><a href="#对极几何" class="headerlink" title="对极几何"></a>对极几何</h3><p><img src="/2020/04/21/求解图像之间的基础矩阵/1.png" alt="图1"><br>基线：连接两个摄像机光点O(O′)的直线。<br>外极点：基线与像平面的交点。<br>外极平面：过基线的平面。<br>外极线：对极平面与图像平面的交线。<br>基本矩阵F：对应点对之间的约束m′TFm=0</p>
+<h4 id="算法步骤"><a href="#算法步骤" class="headerlink" title="算法步骤"></a>算法步骤</h4><p>第一步，导入两幅图像，并使用sift算法提取特征；<br>第二步，使用函数match_twosided连接两幅图的特征；<br>第三步，RANSAC去除错误点匹配；<br>第四步，归一化8点算法估计基础矩阵。这是通过对应点来计算基础矩阵的算法。</p>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>1.简化匹配<br>2.去除错配特征</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">from PIL import Image</span><br><span class="line">from numpy import *</span><br><span class="line">from pylab import *</span><br><span class="line">import numpy as np</span><br><span class="line">from PCV.geometry import camera</span><br><span class="line">from PCV.geometry import homography</span><br><span class="line">from PCV.geometry import sfm</span><br><span class="line">from PCV.localdescriptors import sift</span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line"># Read features</span><br><span class="line"># 载入图像，并计算特征</span><br><span class="line">im1 = array(Image.open(&apos;E:\\study\\python\\venv\\Include\\sixth\\1.jpg&apos;))</span><br><span class="line">sift.process_image(&apos;E:\\study\\python\\venv\\Include\\sixth\\1.jpg&apos;, &apos;E:\\study\\python\\venv\\Include\\sixth\\im1.sift&apos;)</span><br><span class="line">l1, d1 = sift.read_features_from_file(&apos;E:\\study\\python\\venv\\Include\\sixth\\im1.sift&apos;)</span><br><span class="line"></span><br><span class="line">im2 = array(Image.open(&apos;E:\\study\\python\\venv\\Include\\sixth\\2.jpg&apos;))</span><br><span class="line">sift.process_image(&apos;E:\\study\\python\\venv\\Include\\sixth\\2.jpg&apos;, &apos;E:\\study\\python\\venv\\Include\\sixth\\im2.sift&apos;)</span><br><span class="line">l2, d2 = sift.read_features_from_file(&apos;E:\\study\\python\\venv\\Include\\sixth\\im2.sift&apos;)</span><br><span class="line"></span><br><span class="line"># 匹配特征</span><br><span class="line">matches = sift.match_twosided(d1, d2)</span><br><span class="line">ndx = matches.nonzero()[0]</span><br><span class="line"></span><br><span class="line"># 使用齐次坐标表示，并使用 inv(K) 归一化</span><br><span class="line">x1 = homography.make_homog(l1[ndx, :2].T)</span><br><span class="line">ndx2 = [int(matches[i]) for i in ndx]</span><br><span class="line">x2 = homography.make_homog(l2[ndx2, :2].T)</span><br><span class="line"></span><br><span class="line">x1n = x1.copy()</span><br><span class="line">x2n = x2.copy()</span><br><span class="line">print(len(ndx))</span><br><span class="line"></span><br><span class="line">figure(figsize=(16,16))</span><br><span class="line">sift.plot_matches(im1, im2, l1, l2, matches, True)</span><br><span class="line">show()</span><br><span class="line"></span><br><span class="line"># Don&apos;t use K1, and K2</span><br><span class="line"></span><br><span class="line">#def F_from_ransac(x1, x2, model, maxiter=5000, match_threshold=1e-6):</span><br><span class="line">def F_from_ransac(x1, x2, model, maxiter=5000, match_threshold=1e-6):</span><br><span class="line">    &quot;&quot;&quot; Robust estimation of a fundamental matrix F from point</span><br><span class="line">    correspondences using RANSAC (ransac.py from</span><br><span class="line">    http://www.scipy.org/Cookbook/RANSAC).</span><br><span class="line"></span><br><span class="line">    input: x1, x2 (3*n arrays) points in hom. coordinates. &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">    from PCV.tools import ransac</span><br><span class="line">    data = np.vstack((x1, x2))</span><br><span class="line">    d = 20 # 20 is the original</span><br><span class="line">    # compute F and return with inlier index</span><br><span class="line">    F, ransac_data = ransac.ransac(data.T, model, 8, maxiter, match_threshold, d, return_all=True)</span><br><span class="line">    return F, ransac_data[&apos;inliers&apos;]</span><br><span class="line"></span><br><span class="line"># find E through RANSAC</span><br><span class="line"># 使用 RANSAC 方法估计 E</span><br><span class="line">model = sfm.RansacModel()</span><br><span class="line">F, inliers = F_from_ransac(x1n, x2n, model, maxiter=5000, match_threshold=1e-4)</span><br><span class="line"></span><br><span class="line">print(len(x1n[0]))</span><br><span class="line">print(len(inliers))</span><br><span class="line"></span><br><span class="line"># 计算照相机矩阵（P2 是 4 个解的列表）</span><br><span class="line">P1 = array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0]])</span><br><span class="line">P2 = sfm.compute_P_from_fundamental(F)</span><br><span class="line"></span><br><span class="line"># triangulate inliers and remove points not in front of both cameras</span><br><span class="line">X = sfm.triangulate(x1n[:, inliers], x2n[:, inliers], P1, P2)</span><br><span class="line"></span><br><span class="line"># plot the projection of X</span><br><span class="line">cam1 = camera.Camera(P1)</span><br><span class="line">cam2 = camera.Camera(P2)</span><br><span class="line">x1p = cam1.project(X)</span><br><span class="line">x2p = cam2.project(X)</span><br><span class="line"></span><br><span class="line">figure()</span><br><span class="line">imshow(im1)</span><br><span class="line">gray()</span><br><span class="line">plot(x1p[0], x1p[1], &apos;o&apos;)</span><br><span class="line">#plot(x1[0], x1[1], &apos;r.&apos;)</span><br><span class="line">axis(&apos;off&apos;)</span><br><span class="line"></span><br><span class="line">figure()</span><br><span class="line">imshow(im2)</span><br><span class="line">gray()</span><br><span class="line">plot(x2p[0], x2p[1], &apos;o&apos;)</span><br><span class="line">#plot(x2[0], x2[1], &apos;r.&apos;)</span><br><span class="line">axis(&apos;off&apos;)</span><br><span class="line">show()</span><br><span class="line"></span><br><span class="line">figure(figsize=(16, 16))</span><br><span class="line">im3 = sift.appendimages(im1, im2)</span><br><span class="line">im3 = vstack((im3, im3))</span><br><span class="line"></span><br><span class="line">imshow(im3)</span><br><span class="line"></span><br><span class="line">cols1 = im1.shape[1]</span><br><span class="line">rows1 = im1.shape[0]</span><br><span class="line">for i in range(len(x1p[0])):</span><br><span class="line">    if (0&lt;= x1p[0][i]&lt;cols1) and (0&lt;= x2p[0][i]&lt;cols1) and (0&lt;=x1p[1][i]&lt;rows1) and (0&lt;=x2p[1][i]&lt;rows1):</span><br><span class="line">        plot([x1p[0][i], x2p[0][i]+cols1],[x1p[1][i], x2p[1][i]],&apos;c&apos;)</span><br><span class="line">axis(&apos;off&apos;)</span><br><span class="line">show()</span><br><span class="line"></span><br><span class="line">print(F)</span><br><span class="line"></span><br><span class="line">x1e = []</span><br><span class="line">x2e = []</span><br><span class="line">ers = []</span><br><span class="line">for i,m in enumerate(matches):</span><br><span class="line">    if m&gt;0: #plot([locs1[i][0],locs2[m][0]+cols1],[locs1[i][1],locs2[m][1]],&apos;c&apos;)</span><br><span class="line">        x1=int(l1[i][0])</span><br><span class="line">        y1=int(l1[i][1])</span><br><span class="line">        x2=int(l2[int(m)][0])</span><br><span class="line">        y2=int(l2[int(m)][1])</span><br><span class="line">        # p1 = array([l1[i][0], l1[i][1], 1])</span><br><span class="line">        # p2 = array([l2[m][0], l2[m][1], 1])</span><br><span class="line">        p1 = array([x1, y1, 1])</span><br><span class="line">        p2 = array([x2, y2, 1])</span><br><span class="line">        # Use Sampson distance as error</span><br><span class="line">        Fx1 = dot(F, p1)</span><br><span class="line">        Fx2 = dot(F, p2)</span><br><span class="line">        denom = Fx1[0]**2 + Fx1[1]**2 + Fx2[0]**2 + Fx2[1]**2</span><br><span class="line">        e = (dot(p1.T, dot(F, p2)))**2 / denom</span><br><span class="line">        x1e.append([p1[0], p1[1]])</span><br><span class="line">        x2e.append([p2[0], p2[1]])</span><br><span class="line">        ers.append(e)</span><br><span class="line">x1e = array(x1e)</span><br><span class="line">x2e = array(x2e)</span><br><span class="line">ers = array(ers)</span><br><span class="line"></span><br><span class="line">indices = np.argsort(ers)</span><br><span class="line">x1s = x1e[indices]</span><br><span class="line">x2s = x2e[indices]</span><br><span class="line">ers = ers[indices]</span><br><span class="line">x1s = x1s[:20]</span><br><span class="line">x2s = x2s[:20]</span><br><span class="line"></span><br><span class="line">figure(figsize=(16, 16))</span><br><span class="line">im3 = sift.appendimages(im1, im2)</span><br><span class="line">im3 = vstack((im3, im3))</span><br><span class="line"></span><br><span class="line">imshow(im3)</span><br><span class="line"></span><br><span class="line">cols1 = im1.shape[1]</span><br><span class="line">rows1 = im1.shape[0]</span><br><span class="line">for i in range(len(x1s)):</span><br><span class="line">    if (0&lt;= x1s[i][0]&lt;cols1) and (0&lt;= x2s[i][0]&lt;cols1) and (0&lt;=x1s[i][1]&lt;rows1) and (0&lt;=x2s[i][1]&lt;rows1):</span><br><span class="line">        plot([x1s[i][0], x2s[i][0]+cols1],[x1s[i][1], x2s[i][1]],&apos;c&apos;)</span><br><span class="line">axis(&apos;off&apos;)</span><br><span class="line">show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><h4 id="极点位于像平面"><a href="#极点位于像平面" class="headerlink" title="极点位于像平面"></a>极点位于像平面</h4><p>1.shif特征匹配<br><img src="/2020/04/21/求解图像之间的基础矩阵/2.png" alt="图2"><br><img src="/2020/04/21/求解图像之间的基础矩阵/3.png" alt="图3"><br><img src="/2020/04/21/求解图像之间的基础矩阵/4.png" alt="图4"><br>2.ransac<br><img src="/2020/04/21/求解图像之间的基础矩阵/5.png" alt="图5"><br>3.八点法<br><img src="/2020/04/21/求解图像之间的基础矩阵/6.png" alt="图6"><br>4.十点法<br><img src="/2020/04/21/求解图像之间的基础矩阵/8.png" alt="图8"><br>5.七点法<br><img src="/2020/04/21/求解图像之间的基础矩阵/9.png" alt="图9"><br>6.基础矩阵F<br><img src="/2020/04/21/求解图像之间的基础矩阵/7.png" alt="图7"></p>
+<h4 id="基线平行像平面"><a href="#基线平行像平面" class="headerlink" title="基线平行像平面"></a>基线平行像平面</h4><p>1.shif特征匹配<br><img src="/2020/04/21/求解图像之间的基础矩阵/10.png" alt="图2"><br><img src="/2020/04/21/求解图像之间的基础矩阵/11.png" alt="图3"><br><img src="/2020/04/21/求解图像之间的基础矩阵/12.png" alt="图4"><br>2.ransac<br><img src="/2020/04/21/求解图像之间的基础矩阵/13.png" alt="图5"><br>3.八点法<br><img src="/2020/04/21/求解图像之间的基础矩阵/14.png" alt="图6"><br>4.十点法<br><img src="/2020/04/21/求解图像之间的基础矩阵/15.png" alt="图8"><br>5.七点法<br><img src="/2020/04/21/求解图像之间的基础矩阵/16.png" alt="图9"><br>6.基础矩阵F<br><img src="/2020/04/21/求解图像之间的基础矩阵/17.png" alt="图7"></p>
+<h4 id="相机前后方位"><a href="#相机前后方位" class="headerlink" title="相机前后方位"></a>相机前后方位</h4><p>1.shif特征匹配<br><img src="/2020/04/21/求解图像之间的基础矩阵/18.png" alt="图2"><br><img src="/2020/04/21/求解图像之间的基础矩阵/19.png" alt="图3"><br><img src="/2020/04/21/求解图像之间的基础矩阵/20.png" alt="图4"><br>2.ransac<br><img src="/2020/04/21/求解图像之间的基础矩阵/21.png" alt="图5"><br>3.八点法<br><img src="/2020/04/21/求解图像之间的基础矩阵/22.png" alt="图6"><br>4.十点法<br><img src="/2020/04/21/求解图像之间的基础矩阵/23.png" alt="图8"><br>5.七点法<br><img src="/2020/04/21/求解图像之间的基础矩阵/24.png" alt="图9"><br>6.基础矩阵F<br><img src="/2020/04/21/求解图像之间的基础矩阵/25.png" alt="图7"></p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><ul>
+<li>SIFT对两个图像进行特征提取以及匹配，然后使用归一化8点算法进行基本矩阵的求解，并且把两个视图的对极线都画出。</li>
+<li>通过实验结果发现七点，八点，十点匹配的对极线数目依次递减<h3 id="外极点和外极线"><a href="#外极点和外极线" class="headerlink" title="外极点和外极线"></a>外极点和外极线</h3><h4 id="实验代码"><a href="#实验代码" class="headerlink" title="实验代码"></a>实验代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import cv2 as cv</span><br><span class="line">from matplotlib import pyplot as plt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def drawlines(img1, img2, lines, pts1, pts2):</span><br><span class="line">    &apos;&apos;&apos; img1 - image on which we draw the epilines for the points in img2</span><br><span class="line">        lines - corresponding epilines &apos;&apos;&apos;</span><br><span class="line">    r, c = img1.shape</span><br><span class="line">    img1 = cv.cvtColor(img1, cv.COLOR_GRAY2BGR)</span><br><span class="line">    img2 = cv.cvtColor(img2, cv.COLOR_GRAY2BGR)</span><br><span class="line">    for r, pt1, pt2 in zip(lines, pts1, pts2):</span><br><span class="line">        color = tuple(np.random.randint(0, 255, 3).tolist())</span><br><span class="line">        x0, y0 = map(int, [0, -r[2] / r[1]])</span><br><span class="line">        x1, y1 = map(int, [c, -(r[2] + r[0] * c) / r[1]])</span><br><span class="line">        img1 = cv.line(img1, (x0, y0), (x1, y1), color, 1)</span><br><span class="line">        img1 = cv.circle(img1, tuple(pt1), 5, color, -1)</span><br><span class="line">        img2 = cv.circle(img2, tuple(pt2), 5, color, -1)</span><br><span class="line">    return img1, img2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">img1 = cv.imread(&apos;E:\\study\\python\\venv\\Include\\sixth\\5.jpg&apos;, 0)  # queryimage # left image</span><br><span class="line">img2 = cv.imread(&apos;E:\\study\\python\\venv\\Include\\sixth\\6.jpg&apos;, 0)  # trainimage # right image</span><br><span class="line">sift = cv.xfeatures2d.SIFT_create()</span><br><span class="line"># find the keypoints and descriptors with SIFT</span><br><span class="line">kp1, des1 = sift.detectAndCompute(img1, None)</span><br><span class="line">kp2, des2 = sift.detectAndCompute(img2, None)</span><br><span class="line"># FLANN parameters</span><br><span class="line">FLANN_INDEX_KDTREE = 1</span><br><span class="line">index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)</span><br><span class="line">search_params = dict(checks=50)</span><br><span class="line">flann = cv.FlannBasedMatcher(index_params, search_params)</span><br><span class="line">matches = flann.knnMatch(des1, des2, k=2)</span><br><span class="line">good = []</span><br><span class="line">pts1 = []</span><br><span class="line">pts2 = []</span><br><span class="line"># ratio test as per Lowe&apos;s paper</span><br><span class="line">for i, (m, n) in enumerate(matches):</span><br><span class="line">    if m.distance &lt; 0.8 * n.distance:</span><br><span class="line">        good.append(m)</span><br><span class="line">        pts2.append(kp2[m.trainIdx].pt)</span><br><span class="line">        pts1.append(kp1[m.queryIdx].pt)</span><br><span class="line"></span><br><span class="line">pts1 = np.int32(pts1)</span><br><span class="line">pts2 = np.int32(pts2)</span><br><span class="line">F, mask = cv.findFundamentalMat(pts1, pts2, cv.FM_LMEDS)</span><br><span class="line"># We select only inlier points</span><br><span class="line">pts1 = pts1[mask.ravel() == 1]</span><br><span class="line">pts2 = pts2[mask.ravel() == 1]</span><br><span class="line"></span><br><span class="line"># Find epilines corresponding to points in right image (second image) and</span><br><span class="line"># drawing its lines on left image</span><br><span class="line">lines1 = cv.computeCorrespondEpilines(pts2.reshape(-1, 1, 2), 2, F)</span><br><span class="line">lines1 = lines1.reshape(-1, 3)</span><br><span class="line">img5, img6 = drawlines(img1, img2, lines1, pts1, pts2)</span><br><span class="line"># Find epilines corresponding to points in left image (first image) and</span><br><span class="line"># drawing its lines on right image</span><br><span class="line">lines2 = cv.computeCorrespondEpilines(pts1.reshape(-1, 1, 2), 1, F)</span><br><span class="line">lines2 = lines2.reshape(-1, 3)</span><br><span class="line">img3, img4 = drawlines(img2, img1, lines2, pts2, pts1)</span><br><span class="line">plt.subplot(121), plt.imshow(img5)</span><br><span class="line">plt.subplot(122), plt.imshow(img3)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="实验结果-1"><a href="#实验结果-1" class="headerlink" title="实验结果"></a>实验结果</h4><p>1.极点位于像平面<br><img src="/2020/04/21/求解图像之间的基础矩阵/1-1.png" alt="图7"><br>2.基线平行像平面<br><img src="/2020/04/21/求解图像之间的基础矩阵/1-2.png" alt="图7"><br>3.相机前后方位<br><img src="/2020/04/21/求解图像之间的基础矩阵/1-3.png" alt="图7"></p>
+<h4 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h4><ul>
+<li>选择两幅图像的对应点，然后将它们转换为齐次坐标，按照sift提取图像特征的方式，然后通过匹配来找到它们。</li>
+<li>极线交于一个点。因为图二会交于无限远的一个点<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3>实验中碰到的错误<br><img src="/2020/04/21/求解图像之间的基础矩阵/2-1.png" alt="图1"><br>这是因为两图的大小，长宽不一样。由于图像在计算机中是数组的形式存在<br><img src="/2020/04/21/求解图像之间的基础矩阵/2-.png" alt="图1"><br>由于拍摄有点模糊，造成两张图片找不到匹配点。重新拍摄解决。</li>
+</ul>
+
+    </div>
+
+	<div>
+      
+        
+      
+	</div>
+	
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+	
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>lanjianwen</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/" title="求解图像之间的基础矩阵">http://lanjianwen.github.io/2020/04/21/求解图像之间的基础矩阵/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/04/13/集合/" rel="next" title="集合">
+                  <i class="fa fa-chevron-left"></i> 集合
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#图像之间的基础矩阵"><span class="nav-number">1.</span> <span class="nav-text">图像之间的基础矩阵</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原理"><span class="nav-number">1.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对极几何"><span class="nav-number">1.2.</span> <span class="nav-text">对极几何</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法步骤"><span class="nav-number">1.2.1.</span> <span class="nav-text">算法步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用"><span class="nav-number">1.3.</span> <span class="nav-text">应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实现"><span class="nav-number">1.4.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果"><span class="nav-number">1.5.</span> <span class="nav-text">实验结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#极点位于像平面"><span class="nav-number">1.5.1.</span> <span class="nav-text">极点位于像平面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基线平行像平面"><span class="nav-number">1.5.2.</span> <span class="nav-text">基线平行像平面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相机前后方位"><span class="nav-number">1.5.3.</span> <span class="nav-text">相机前后方位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小结"><span class="nav-number">1.5.4.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#外极点和外极线"><span class="nav-number">1.6.</span> <span class="nav-text">外极点和外极线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实验代码"><span class="nav-number">1.6.1.</span> <span class="nav-text">实验代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实验结果-1"><span class="nav-number">1.6.2.</span> <span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小结-1"><span class="nav-number">1.6.3.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.7.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lanjianwen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/lanjianwen" title="GitHub &rarr; https://github.com/lanjianwen" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:yourname@gmail.com" title="E-Mail &rarr; mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://weibo.com/yourname" title="Weibo &rarr; https://weibo.com/yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lanjianwen</span>
+</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共30k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'WiIu2EqRjQgcd06QV1wf6n50-MdYXbMMI',
+    appKey: 'j2LBbg8JQohH4c99Up4pLE4t',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>
