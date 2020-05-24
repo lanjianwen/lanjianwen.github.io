@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Bag of Features (BOF)图像检索算法及其python实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bag of Features图像检索算法">
+<meta property="og:url" content="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/index.html">
+<meta property="og:site_name" content="lanjianwen&amp;blog">
+<meta property="og:description" content="Bag of Features (BOF)图像检索算法及其python实现">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/result1.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/result2.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/result3.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/result4.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/result5.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/result6.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/error1.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/error2.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/error3.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/error4.png">
+<meta property="og:image" content="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/error5.png">
+<meta property="og:updated_time" content="2020-05-24T14:48:14.680Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Bag of Features图像检索算法">
+<meta name="twitter:description" content="Bag of Features (BOF)图像检索算法及其python实现">
+<meta name="twitter:image" content="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/result1.png">
+  <link rel="canonical" href="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Bag of Features图像检索算法 | lanjianwen&blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lanjianwen&blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-sitemap">
+      
+    
+
+    <a href="/sitemap.xml" rel="section"><i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lanjianwen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lanjianwen&blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Bag of Features图像检索算法
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2020-05-24 19:09:51 / 修改时间：22:48:14" itemprop="dateCreated datePublished" datetime="2020-05-24T19:09:51+08:00">2020-05-24</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/计算机视觉/" itemprop="url" rel="index"><span itemprop="name">计算机视觉</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/05/24/Bag-of-Features图像检索算法/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2020/05/24/Bag-of-Features图像检索算法/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Bag-of-Features-BOF-图像检索算法及其python实现"><a href="#Bag-of-Features-BOF-图像检索算法及其python实现" class="headerlink" title="Bag of Features (BOF)图像检索算法及其python实现"></a>Bag of Features (BOF)图像检索算法及其python实现</h2><a id="more"></a>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>Bag of Feature 是一种图像特征提取方法，它借鉴了文本分类的思路（Bag of Words），从图像抽象出很多具有代表性的「关键词」，形成一个字典，再统计每张图片中出现的「关键词」数量，得到图片的特征向量。</p>
+<h3 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h3><p>1.SIFT提取图像特征<br>2.采用K-Means算法对特征进行聚类，得到一部“视觉字典”<br>3.根据IDF原理，计算每个视觉单词的权<br>4.针对输入特征集，根据视觉词典进行量化<br>5.把输入图像转化成视觉单词的频率直方图<br>6.构造特征到图像的倒排表，通过倒排表快速 索引相关图像<br>7.根据索引结果进行直方图匹配</p>
+<h3 id="实验代码"><a href="#实验代码" class="headerlink" title="实验代码"></a>实验代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import pickle</span><br><span class="line">from PCV.imagesearch import vocabulary</span><br><span class="line">from PCV.tools.imtools import get_imlist</span><br><span class="line">from PCV.localdescriptors import sift</span><br><span class="line"></span><br><span class="line">#获取图像列表</span><br><span class="line">imlist = get_imlist(r&apos;E:\study\python\venv\Include\eightth\flickr-sunsets-small&apos;)</span><br><span class="line">nbr_images = len(imlist)</span><br><span class="line">#获取特征列表</span><br><span class="line">featlist = [imlist[i][:-3]+&apos;sift&apos; for i in range(nbr_images)]</span><br><span class="line"></span><br><span class="line">#提取文件夹下图像的sift特征</span><br><span class="line">for i in range(nbr_images):</span><br><span class="line">    sift.process_image(imlist[i], featlist[i])</span><br><span class="line"></span><br><span class="line">#生成词汇</span><br><span class="line">voc = vocabulary.Vocabulary(&apos;ukbenchtest&apos;)</span><br><span class="line">voc.train(featlist, 1000, 10)</span><br><span class="line">#保存词汇</span><br><span class="line"># saving vocabulary</span><br><span class="line">with open(r&apos;E:\study\python\venv\Include\eightth\vocabulary.pkl&apos;, &apos;wb&apos;) as f:</span><br><span class="line">    pickle.dump(voc, f)</span><br><span class="line">print (&apos;vocabulary is:&apos;, voc.name, voc.nbr_words)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import pickle</span><br><span class="line">from PCV.imagesearch import imagesearch</span><br><span class="line">from PCV.localdescriptors import sift</span><br><span class="line">from sqlite3 import dbapi2 as sqlite</span><br><span class="line">from PCV.tools.imtools import get_imlist</span><br><span class="line">##要记得将PCV放置在对应的路径下</span><br><span class="line">#获取图像列表</span><br><span class="line">imlist = get_imlist(r&apos;E:\study\python\venv\Include\eightth\flickr-sunsets-small&apos;)##记得改成自己的路径</span><br><span class="line">nbr_images = len(imlist)</span><br><span class="line">#获取特征列表</span><br><span class="line">featlist = [imlist[i][:-3]+&apos;sift&apos; for i in range(nbr_images)]</span><br><span class="line"># load vocabulary</span><br><span class="line">#载入词汇</span><br><span class="line">with open(r&apos;E:\study\python\venv\Include\eightth\vocabulary.pkl&apos;, &apos;rb&apos;) as f:</span><br><span class="line">    voc = pickle.load(f)</span><br><span class="line">#创建索引</span><br><span class="line">indx = imagesearch.Indexer(&apos;testImaAdd.db&apos;,voc)</span><br><span class="line">indx.create_tables()</span><br><span class="line"># go through all images, project features on vocabulary and insert</span><br><span class="line">#遍历所有的图像，并将它们的特征投影到词汇上</span><br><span class="line">for i in range(nbr_images)[:1000]:</span><br><span class="line">    locs,descr = sift.read_features_from_file(featlist[i])</span><br><span class="line">    indx.add_to_index(imlist[i],descr)</span><br><span class="line"># commit to database</span><br><span class="line">#提交到数据库</span><br><span class="line">indx.db_commit()</span><br><span class="line">con = sqlite.connect(&apos;testImaAdd.db&apos;)</span><br><span class="line">print (con.execute(&apos;select count (filename) from imlist&apos;).fetchone())</span><br><span class="line">print (con.execute(&apos;select * from imlist&apos;).fetchone())</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import pickle</span><br><span class="line">from PCV.localdescriptors import sift</span><br><span class="line">from PCV.imagesearch import imagesearch</span><br><span class="line">from PCV.geometry import homography</span><br><span class="line">from PCV.tools.imtools import get_imlist</span><br><span class="line"></span><br><span class="line"># load image list and vocabulary</span><br><span class="line">#载入图像列表</span><br><span class="line">imlist = get_imlist(r&apos;E:\study\python\venv\Include\eightth\flickr-sunsets-small&apos;)</span><br><span class="line">nbr_images = len(imlist)</span><br><span class="line">#载入特征列表</span><br><span class="line">featlist = [imlist[i][:-3]+&apos;sift&apos; for i in range(nbr_images)]</span><br><span class="line"></span><br><span class="line">#载入词汇</span><br><span class="line">with open(r&apos;E:\study\python\venv\Include\eightth\vocabulary.pkl&apos;, &apos;rb&apos;) as f:</span><br><span class="line">    voc = pickle.load(f)</span><br><span class="line"></span><br><span class="line">src = imagesearch.Searcher(&apos;testImaAdd.db&apos;,voc)</span><br><span class="line"></span><br><span class="line"># index of query image and number of results to return</span><br><span class="line">#查询图像索引和查询返回的图像数</span><br><span class="line">q_ind = 2</span><br><span class="line">nbr_results = 20</span><br><span class="line"></span><br><span class="line"># regular query</span><br><span class="line"># 常规查询(按欧式距离对结果排序)</span><br><span class="line">res_reg = [w[1] for w in src.query(imlist[q_ind])[:nbr_results]]</span><br><span class="line">print (&apos;top matches (regular):&apos;, res_reg)</span><br><span class="line"></span><br><span class="line"># load image features for query image</span><br><span class="line">#载入查询图像特征</span><br><span class="line">q_locs,q_descr = sift.read_features_from_file(featlist[q_ind])</span><br><span class="line">fp = homography.make_homog(q_locs[:,:2].T)</span><br><span class="line"></span><br><span class="line"># RANSAC model for homography fitting</span><br><span class="line">#用单应性进行拟合建立RANSAC模型</span><br><span class="line">model = homography.RansacModel()</span><br><span class="line">rank = &#123;&#125;</span><br><span class="line"></span><br><span class="line"># load image features for result</span><br><span class="line">#载入候选图像的特征</span><br><span class="line">for ndx in res_reg[1:]:</span><br><span class="line">    locs,descr = sift.read_features_from_file(featlist[ndx])  # because &apos;ndx&apos; is a rowid of the DB that starts at 1</span><br><span class="line">    # get matches</span><br><span class="line">    matches = sift.match(q_descr,descr)</span><br><span class="line">    ind = matches.nonzero()[0]</span><br><span class="line">    ind2 = matches[ind]</span><br><span class="line">    tp = homography.make_homog(locs[:,:2].T)</span><br><span class="line">    # compute homography, count inliers. if not enough matches return empty list</span><br><span class="line">    try:</span><br><span class="line">        H,inliers = homography.H_from_ransac(fp[:,ind],tp[:,ind2],model,match_theshold=4)</span><br><span class="line">    except:</span><br><span class="line">        inliers = []</span><br><span class="line">    # store inlier count</span><br><span class="line">    rank[ndx] = len(inliers)</span><br><span class="line"></span><br><span class="line"># sort dictionary to get the most inliers first</span><br><span class="line">sorted_rank = sorted(rank.items(), key=lambda t: t[1], reverse=True)</span><br><span class="line">res_geom = [res_reg[0]]+[s[0] for s in sorted_rank]</span><br><span class="line">print (&apos;top matches (homography):&apos;, res_geom)</span><br><span class="line"></span><br><span class="line"># 显示查询结果</span><br><span class="line">imagesearch.plot_results(src,res_reg[:8]) #常规查询</span><br><span class="line">imagesearch.plot_results(src,res_geom[:8]) #重排后的结果</span><br></pre></td></tr></table></figure>
+
+<h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><p><code>每组图片的第一张是模板图，每两组图的第一组图是常规的查询，第二组图是重排后的查询</code><br><img src="/2020/05/24/Bag-of-Features图像检索算法/result1.png" alt="图"><br><img src="/2020/05/24/Bag-of-Features图像检索算法/result2.png" alt="图"><br><img src="/2020/05/24/Bag-of-Features图像检索算法/result3.png" alt="图"><br><img src="/2020/05/24/Bag-of-Features图像检索算法/result4.png" alt="图"><br><img src="/2020/05/24/Bag-of-Features图像检索算法/result5.png" alt="图"><br><img src="/2020/05/24/Bag-of-Features图像检索算法/result6.png" alt="图"><br><code>小结</code></p>
+<ul>
+<li>代码中是给出相似最高的20张图输出，但结果都是远少于20，因为他们之间的没有相似性</li>
+<li>颜色不影响相似性的判断，特征不以颜色判断</li>
+<li>字典大小的选择也是问题，字典过大，单词缺乏一般性，对噪声敏感，计算量大，关键是图象投影后的维数高；字典太小。单词区分性能差，对类似的目标特征无法表示。</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>实验中碰到的问题<br><img src="/2020/05/24/Bag-of-Features图像检索算法/error1.png" alt="图"><br><img src="/2020/05/24/Bag-of-Features图像检索算法/error2.png" alt="图"><br><img src="/2020/05/24/Bag-of-Features图像检索算法/error3.png" alt="图"><br>以上错误都是是imagesearch库与python3版本不兼容问题</p>
+<ul>
+<li>第一个错误是python2和python3的print用法不同</li>
+<li>第二个错误是sqlite2和python3不兼容，包改成sqlite3</li>
+<li>第三个错误是rcvdata在python2中为str类型，但是在python3中为bytes类型，所以我们要转换参数类型。从str到bytes:调用方法encode();从bytes到str:调用方法decode().<br><img src="/2020/05/24/Bag-of-Features图像检索算法/error4.png" alt="图"></li>
+<li>这个原因是在选出其他分类所对应的数据集时，由于会产生空的数组，传入mean()函数中，解决方法就是先判断，不为空才传入。即加入红色框框内容<br><img src="/2020/05/24/Bag-of-Features图像检索算法/error5.png" alt="图"></li>
+</ul>
+
+    </div>
+
+	<div>
+      
+        
+      
+	</div>
+	
+	<div>
+	  
+		<div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+	  
+	</div>
+	
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>lanjianwen</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/" title="Bag of Features图像检索算法">http://lanjianwen.github.io/2020/05/24/Bag-of-Features图像检索算法/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2020/04/26/使用归一化互相关从一对立体图像中计算视差图/" rel="next" title="使用归一化互相关从一对立体图像中计算视差图">
+                  <i class="fa fa-chevron-left"></i> 使用归一化互相关从一对立体图像中计算视差图
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Bag-of-Features-BOF-图像检索算法及其python实现"><span class="nav-number">1.</span> <span class="nav-text">Bag of Features (BOF)图像检索算法及其python实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原理"><span class="nav-number">1.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法流程"><span class="nav-number">1.2.</span> <span class="nav-text">算法流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验代码"><span class="nav-number">1.3.</span> <span class="nav-text">实验代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果"><span class="nav-number">1.4.</span> <span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lanjianwen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/lanjianwen" title="GitHub &rarr; https://github.com/lanjianwen" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:yourname@gmail.com" title="E-Mail &rarr; mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://weibo.com/yourname" title="Weibo &rarr; https://weibo.com/yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lanjianwen</span>
+</div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共32.6k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'WiIu2EqRjQgcd06QV1wf6n50-MdYXbMMI',
+    appKey: 'j2LBbg8JQohH4c99Up4pLE4t',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname
+  });
+}, window.Valine);
+</script>
+
+</body>
+</html>
